@@ -26,6 +26,10 @@ def home():
 
 @app.post('/aplicacao', tags=[aplicacao_tag])
 def add_aplicacao(form: AplicacaoSchema):
+    """Método para adicionar uma nova aplicação na base de dados
+    
+    Retorna uma representação das aplicações
+    """
     aplicacao = Aplicacao(
         nome=form.nome,
         sigla=form.sigla,
@@ -33,3 +37,11 @@ def add_aplicacao(form: AplicacaoSchema):
         descricao=form.descricao
     )
     logger.debug(f"Adicionando aplicação de nome: '{aplicacao.nome}'")
+    try:
+        # Criando conexao com a base de dados
+        session = Session()
+        # Adicionando aplicação
+        session.add(aplicacao)
+        session.commit()
+        logger.debug(f"Adicionado aplicação de nome: '{aplicacao.nome}'")
+        return
