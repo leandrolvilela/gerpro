@@ -5,8 +5,9 @@ import os
 
 # importando os elementos definidos no modelo
 from model.base import Base
-#from model.comentario import Comentario
-#from model.produto import Produto
+from model.aplicacao import Aplicacao
+
+print("C H E G O U")
 
 db_path = "database/"
 # Verifica se o diretorio não existe
@@ -20,7 +21,6 @@ db_url = 'sqlite:///%s/db.sqlite3' % db_path
 # cria a engine de conexão com o banco
 engine = create_engine(db_url, echo=False)
 
-'''
 # Instancia um criador de seção com o banco
 Session = sessionmaker(bind=engine)
 
@@ -30,4 +30,3 @@ if not database_exists(engine.url):
 
 # cria as tabelas do banco, caso não existam
 Base.metadata.create_all(engine)
-'''
