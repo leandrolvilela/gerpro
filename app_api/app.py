@@ -15,7 +15,7 @@ CORS(app)
 
 # definindo tags
 home_tag = Tag(name="Documentação", description=" Seleção de documentação: Swagger, Redoc ou RapiDoc")
-aplicacao_tag = Tag(name="Aplicacao", description="Adição, visualização e remoção de aplicações à base")
+aplicacao_tag = Tag(name="Aplicação", description="Adição, visualização e remoção de aplicações à base")
 #comentario_tag = Tag(name="Comentario", description="Adição de um comentário à um produtos cadastrado na base")
 
 @app.get('/', tags=[home_tag])
@@ -24,17 +24,18 @@ def home():
     """
     return redirect('/openapi')
 
-@app.post('/aplicacao', tags=[aplicacao_tag])
-def add_aplicacao(form: AplicacaoSchema):
+@app.post('/aplicacao', tags=[aplicacao_tag],
+          responses={"200":AplicacaoViewSchema, "409": ErrorSchema, "400": ErrorSchema})
+def add_aplicacao(form:AplicacaoSchema):
     """Método para adicionar uma nova aplicação na base de dados
     
     Retorna uma representação das aplicações
     """
     aplicacao = Aplicacao(
-        nome=form.nome,
-        sigla=form.sigla,
-        status=form.status,
-        descricao=form.descricao
+        nome        = form.nome,
+        sigla       = form.sigla,
+        status      = form.status,
+        descricao   = form.descricao
     )
     logger.debug(f"Adicionando aplicação de nome: '{aplicacao.nome}'")
     try:
@@ -44,4 +45,16 @@ def add_aplicacao(form: AplicacaoSchema):
         session.add(aplicacao)
         session.commit()
         logger.debug(f"Adicionado aplicação de nome: '{aplicacao.nome}'")
-        return
+        return apresenta_aplicacoes(aplicacao), 200
+    
+    except IntegrityError as e:
+        # como a duplicidade do nome é a provável razão do IntegrityError
+        error_msg = "Aplicação de mesmo nome já salvo na base:/"
+        logger.warning(f"Erro ao adicionar a aplicação '{aplicacao.nome}', {error_msg}")
+        return {"message": error_msg}, 409
+    
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = "Não foi possível salva novo item :/"
+        logger.warning(f"Erro ao adicionar a aplicação '{aplicacao.nome}', {error_msg}")
+        return {"mesage": error_msg}, 400

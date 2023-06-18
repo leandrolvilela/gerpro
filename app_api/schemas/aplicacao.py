@@ -2,20 +2,26 @@ from pydantic import BaseModel
 from typing import Optional, List
 from model.aplicacao import Aplicacao
 
-from schemas import ComentarioSchema
+# from schemas import ComentarioSchema
 
 class AplicacaoSchema(BaseModel):
-    """ Define uma nova aplicação a ser inserida deve ser representada
+    """ Define uma nova aplicação a ser inserida deve ser representada (aplicacao.py)
     """
     nome: str = "SAP Success Factor"
-    sigla: str = "SSF"
+    sigla: Optional[str] = "SSF"
     descricao: str = "O SAP SuccessFactors é uma solução completa para um RH estratégico e eficaz."
     status: str = "AA"
 
+class ListagemAplicacoesSchema(BaseModel):
+    """ Define como uma listagem de aplicações será retornada (aplicacao.py)
+    """
+    aplicacoes:List[AplicacaoSchema]
 
+# As funções da classe do schemas não podem conter espaços iniciais (identação)
+# Pois ocorre erro de importação/utilização no app.py
 def apresenta_aplicacoes(aplicacoes: List[Aplicacao]):
     """ Retorna uma representação da aplicação seguindo o schema definido em
-        AplicaçãoViewSchema.
+        AplicaçãoViewSchema. (aplicacao.py)
     """
     result = []
     for aplicacao in aplicacoes:
@@ -25,8 +31,14 @@ def apresenta_aplicacoes(aplicacoes: List[Aplicacao]):
             "sigla"     : aplicacao.sigla,
             "status"    : aplicacao.status,
         })
-
+        
     return {"aplicacoes": result}
+
+class AplicacaoDelSchema(BaseModel):
+    """ Define como deve ser a estrutura de dado retornado após uma requisição de remoção (aplicacao.py)
+    """
+    mesage: str
+    nome: str
 
 def apresenta_aplicacao(aplicacao: Aplicacao):
     """ Retorna uma representação da aplicacao seguindo o schema definido em
@@ -39,8 +51,8 @@ def apresenta_aplicacao(aplicacao: Aplicacao):
         "status"    : aplicacao.status
     }
 
-def AlicacaoViewSchema(BaselModel):
-    """ Define como uma aplicação será retornada
+class AplicacaoViewSchema(BaseModel):
+    """ Define como uma aplicação será retornada (aplicacao.py)
     """
     id: int=1
     nome: str="SAP Success Factor"
@@ -48,9 +60,8 @@ def AlicacaoViewSchema(BaselModel):
     descricao: str="SAP Success Factor"
     status: str="AA"
 
-class AplicacaoDelSchema(BaseModel):
-    """ Define como deve ser a estrutura do dado retornado após uma requisição
-        de remoção.
+class AplicacaoBuscaSchema(BaseModel):
+    """ Define como deve ser a estrutura que representa a busca. Que será
+        feita apenas com base no nome da aplicação.
     """
-    mesage: str
-    nome: str
+    nome: str = "Aplicação xpto"
