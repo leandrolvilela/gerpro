@@ -5,7 +5,7 @@ from model.aplicacao import Aplicacao
 # from schemas import ComentarioSchema
 
 class AplicacaoSchema(BaseModel):
-    """ Define uma nova aplicação a ser inserida deve ser representada (aplicacao.py)
+    """ Define uma nova aplicação a ser inserida ou atualizada deve ser representada (aplicacao.py)
     """
     nome: str = "SAP Success Factor"
     sigla: Optional[str] = "SSF"
@@ -62,6 +62,16 @@ class AplicacaoViewSchema(BaseModel):
 
 class AplicacaoBuscaSchema(BaseModel):
     """ Define como deve ser a estrutura que representa a busca. Que será
-        feita apenas com base no nome da aplicação.
+        feita apenas com base no nome e ID da aplicação.
     """
-    nome: str = "Aplicação xpto"
+    id: int = 0
+    nome: str = ""
+    sigla: str = ""
+
+
+class AplicacaoUpdSchema(BaseModel):
+    """ Define como deve ser a estrutura do dado retornado após uma requisição
+        de atualização.
+    """
+    id: int = 0
+    nome: str = ""

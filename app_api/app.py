@@ -3,6 +3,7 @@ from flask import redirect
 from urllib.parse import unquote
 
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import update
 
 from model import Session, Aplicacao
 from logger import logger
@@ -66,11 +67,16 @@ def get_produto(query: AplicacaoBuscaSchema):
         Retorna uma representação das aplicações
     """ 
     aplicacao_id = query.id
+    aplicacao_nome = unquote(unquote(query.nome))
     logger.debug(f"Coletando dados sobre produto #{aplicacao_id}")
     # criando conexão com a base
     session = Session()
+
     # Fazendo a busca
-    aplicacao = session.query(Aplicacao).filter(Aplicacao.id == aplicacao_id).first()
+    if aplicacao_id:
+        aplicacao = session.query(Aplicacao).filter(Aplicacao.id == aplicacao_id).first()
+    else:
+        aplicacao = session.query(Aplicacao).filter(Aplicacao.nome == aplicacao_nome).first()
 
     if not aplicacao:
         # Se a aplicação não foi encontrado
@@ -107,3 +113,50 @@ def del_aplicacao(query: AplicacaoBuscaSchema):
         erro_msg = "Aplicação não encontrada na base :/"
         logger.warning(f"Erro ao deletar a aplicação #'{aplicacao_nome}', {erro_msg}")
         return {"message": erro_msg}, 404
+
+@app.put('/aplicacao', tags=[aplicacao_tag],
+         responses={"200": AplicacaoSchema, "404" : ErrorSchema})
+def upd_aplicacao(query: AplicacaoUpdSchema):
+    """Atualiza uma aplicação a partir do ID da aplicação informado
+    
+    Retorna uma mensagem de configuração da remoção
+    """
+    aplicacao_nome = unquote(unquote(query.nome))
+    aplicacao_id = query.id
+    print(aplicacao_nome)
+    
+    if not aplicacao_nome or aplicacao_nome == "":
+        # Se não foi informado nenhum nome
+        error_msg = "Nome da aplicação na base não pode ficar em branco:/"
+        logger.warning(f"Erro ao atualizar o nome da aplicação '{aplicacao_id}', {error_msg}")
+        return {"message": error_msg}, 404
+
+    
+    print(aplicacao_nome, "ID: ",aplicacao_id)
+    logger.debug(f"Atualizando dados sobre a aplicação #{aplicacao_nome}")
+
+    # Criando conexão com a base
+    session = Session()
+    # Fazendo a busca
+    obj_id = session.query(Aplicacao).filter(Aplicacao.id == aplicacao_id).first()
+    if not obj_id:
+        # Se a aplicação não foi encontrado
+        error_msg = "Aplicação não encontrada na base :/"
+        logger.warning(f"Erro ao buscar a aplicação '{aplicacao_id}', {error_msg}")
+        return {"message": error_msg}, 404
+    else:
+        # Montando a query para atualização do nome
+        stmt = (update(Aplicacao)
+            .where(Aplicacao.id == obj_id.id)
+            .values(nome=aplicacao_nome))
+        print(stmt)
+        # Executando a atualização
+        session.execute(stmt)
+        # Gravando a atualização
+        session.commit()
+
+        if obj_id:
+            # Retorna a representação da mensagem de confirmação
+            logger.debug(f"Alterando a aplicação #{aplicacao_nome}")
+            return {"message": "Aplicação atualizada ", "id":aplicacao_id}
+
