@@ -12,6 +12,15 @@ class AplicacaoSchema(BaseModel):
     descricao: str = "O SAP SuccessFactors é uma solução completa para um RH estratégico e eficaz."
     status: str = "AA"
 
+class AplicacaoViewSchema(BaseModel):
+    """ Define como uma aplicação será retornada (aplicacao.py)
+    """
+    id: int=1
+    nome: str="SAP Success Factor"
+    sigla: str="SSF"
+    descricao: str="SAP Success Factor"
+    status: str="AA"
+
 class ListagemAplicacoesSchema(BaseModel):
     """ Define como uma listagem de aplicações será retornada (aplicacao.py)
     """
@@ -73,5 +82,5 @@ class AplicacaoUpdSchema(BaseModel):
     """ Define como deve ser a estrutura do dado retornado após uma requisição
         de atualização.
     """
-    id: int = 0
-    nome: str = ""
+    id: int = 1
+    nome: str = "SAP Success Factor"

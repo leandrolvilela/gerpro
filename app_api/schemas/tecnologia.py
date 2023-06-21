@@ -1,0 +1,42 @@
+from pydantic import BaseModel
+from typing import Optional, List
+from model.tecnologia import Tecnologia
+
+class TecnologiaSchema(BaseModel):
+    """ Define uma nova tecnologia a ser inserida ou atualizada deve ser representada (tecnologia.py)
+    """
+    descricao:       str = "JAVA"
+    status:          str = "A"
+    tipo_tecnologia: str = "Linguagem de Programação"
+    ultima_versao:   str = "JDK 17.0"
+
+class TecnologiaViewSchema(BaseModel):
+    """ Define como uma tecnologia será retornada (tecnologia.py)
+    """
+    id: int=1
+    descricao: str = "JAVA"
+    status: str = "A"
+    tipo_tecnologia: str = "Linguagem de Programação"
+    ultima_versao: str = "JDK 17.0"
+
+class ListagemTecnologiaSchema(BaseModel):
+    """ Define como uma listagem de tecnologia será retornada (tecnologia.py)
+    """
+    tecnologia:List[TecnologiaSchema]
+
+# As funções da classe do schemas não podem conter espaços iniciais (identação)
+# Pois ocorre erro de importação/utilização no app.py
+def apresenta_tecnologia(tecnologias: List[Tecnologia]):
+    """ Retorna uma representação da tecnologia seguindo o schema definido em
+        TecnologiaViewSchema. (tecnologia.py)
+    """
+    result = []
+    for tecnologia in tecnologias:
+        result.append({
+            "descricao" : tecnologia.descricao,
+            "status"    : tecnologia.status,
+            "tipo_tecnologia" : tecnologia.tipo_tecnologia,
+            "ultima_versao": tecnologia.ultima_versao,
+        })
+        
+    return {"tecnologias": result}

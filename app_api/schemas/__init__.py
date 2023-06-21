@@ -5,4 +5,6 @@
 from schemas.aplicacao import AplicacaoSchema, AplicacaoViewSchema, AplicacaoBuscaSchema, \
                               ListagemAplicacoesSchema, AplicacaoDelSchema, AplicacaoUpdSchema, \
                                apresenta_aplicacao, apresenta_aplicacoes
+from schemas.tecnologia import TecnologiaSchema, ListagemTecnologiaSchema, TecnologiaViewSchema, \
+                                apresenta_tecnologia
 from schemas.error import ErrorSchema

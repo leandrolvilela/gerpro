@@ -5,7 +5,7 @@ from urllib.parse import unquote
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import update
 
-from model import Session, Aplicacao
+from model import Session, Aplicacao, Tecnologia
 from logger import logger
 from schemas import *
 from flask_cors import CORS
@@ -17,6 +17,7 @@ CORS(app)
 # definindo tags
 home_tag = Tag(name="Documentação", description=" Seleção de documentação: Swagger, Redoc ou RapiDoc")
 aplicacao_tag = Tag(name="Aplicação", description="Adição, visualização e remoção de aplicações à base")
+tecnologia_tag = Tag(name="Tecnologia", description="Adição, visualização e remoção de aplicações à base")
 #comentario_tag = Tag(name="Comentario", description="Adição de um comentário à um produtos cadastrado na base")
 
 @app.get('/', tags=[home_tag])
@@ -25,6 +26,10 @@ def home():
     """
     return redirect('/openapi')
 
+# -------------------------------
+# METODOS REFERENTE A APLICAÇÃO
+# -------------------------------
+
 @app.post('/aplicacao', tags=[aplicacao_tag],
           responses={"200":AplicacaoViewSchema, "409": ErrorSchema, "400": ErrorSchema})
 def add_aplicacao(form:AplicacaoSchema):
@@ -32,6 +37,7 @@ def add_aplicacao(form:AplicacaoSchema):
     
     Retorna uma representação das aplicações
     """
+
     aplicacao = Aplicacao(
         nome        = form.nome,
         sigla       = form.sigla,
@@ -42,8 +48,10 @@ def add_aplicacao(form:AplicacaoSchema):
     try:
         # Criando conexao com a base de dados
         session = Session()
+
         # Adicionando aplicação
         session.add(aplicacao)
+
         session.commit()
         logger.debug(f"Adicionado aplicação de nome: '{aplicacao.nome}'")
         return apresenta_aplicacoes(aplicacao), 200
@@ -60,6 +68,7 @@ def add_aplicacao(form:AplicacaoSchema):
         logger.warning(f"Erro ao adicionar a aplicação '{aplicacao.nome}', {error_msg}")
         return {"mesage": error_msg}, 400
     
+    
 @app.get('/aplicacao', tags=[aplicacao_tag],
          responses={"200":AplicacaoSchema, "404": ErrorSchema})
 def get_produto(query: AplicacaoBuscaSchema):
@@ -68,7 +77,7 @@ def get_produto(query: AplicacaoBuscaSchema):
     """ 
     aplicacao_id = query.id
     aplicacao_nome = unquote(unquote(query.nome))
-    logger.debug(f"Coletando dados sobre produto #{aplicacao_id}")
+    logger.debug(f"Coletando dados sobre a aplicação #{aplicacao_id}")
     # criando conexão com a base
     session = Session()
 
@@ -80,13 +89,14 @@ def get_produto(query: AplicacaoBuscaSchema):
 
     if not aplicacao:
         # Se a aplicação não foi encontrado
-        error_msg = "Aplicação não encontrado na base :/"
+        error_msg = "Aplicação não encontrada na base :/"
         logger.warning(f"Erro ao buscar a aplicação '{aplicacao_id}', {error_msg}")
         return {"message": error_msg}, 404
     else:
-        logger.debug(f"Aplicação encontrado: '{aplicacao.nome}'")
+        logger.debug(f"Aplicação encontrada: '{aplicacao.nome}'")
         # retorna a representação da aplicação
         return apresenta_aplicacao(aplicacao), 200
+
 
 @app.delete('/aplicacao', tags=[aplicacao_tag],
             responses={"200":AplicacaoDelSchema, "404": ErrorSchema})
@@ -95,11 +105,14 @@ def del_aplicacao(query: AplicacaoBuscaSchema):
     
     Retorna uma mensagem de configuração da remoção
     """
+
     aplicacao_nome = unquote(unquote(query.nome))
     print(aplicacao_nome)
     logger.debug(f"Deletando dados sobre a aplicação #{aplicacao_nome}")
+
     # Criando conexão com a base
     session = Session()
+
     # Fazendo a remoção
     count = session.query(Aplicacao).filter(Aplicacao.nome == aplicacao_nome).delete()
     session.commit()
@@ -107,12 +120,13 @@ def del_aplicacao(query: AplicacaoBuscaSchema):
     if count:
         # Retorna a representação da mensagem de confirmação
         logger.debug(f"Deletando aplicação #{aplicacao_nome}")
-        return {"message": "Aplicação removido", "id":aplicacao_nome}
+        return {"message": "Aplicação removida", "id":aplicacao_nome}
     else:
         # Se a aplicação não foi encontrado
         erro_msg = "Aplicação não encontrada na base :/"
         logger.warning(f"Erro ao deletar a aplicação #'{aplicacao_nome}', {erro_msg}")
         return {"message": erro_msg}, 404
+    
 
 @app.put('/aplicacao', tags=[aplicacao_tag],
          responses={"200": AplicacaoSchema, "404" : ErrorSchema})
@@ -122,7 +136,7 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
     Retorna uma mensagem de configuração da remoção
     """
     aplicacao_nome = unquote(unquote(query.nome))
-    aplicacao_id = query.id
+    aplicacao_id   = query.id
     print(aplicacao_nome)
     
     if not aplicacao_nome or aplicacao_nome == "":
@@ -130,15 +144,16 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
         error_msg = "Nome da aplicação na base não pode ficar em branco:/"
         logger.warning(f"Erro ao atualizar o nome da aplicação '{aplicacao_id}', {error_msg}")
         return {"message": error_msg}, 404
-
     
     print(aplicacao_nome, "ID: ",aplicacao_id)
     logger.debug(f"Atualizando dados sobre a aplicação #{aplicacao_nome}")
 
     # Criando conexão com a base
     session = Session()
+
     # Fazendo a busca
     obj_id = session.query(Aplicacao).filter(Aplicacao.id == aplicacao_id).first()
+    
     if not obj_id:
         # Se a aplicação não foi encontrado
         error_msg = "Aplicação não encontrada na base :/"
@@ -148,10 +163,12 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
         # Montando a query para atualização do nome
         stmt = (update(Aplicacao)
             .where(Aplicacao.id == obj_id.id)
-            .values(nome=aplicacao_nome))
-        print(stmt)
+            .values(nome = aplicacao_nome))
+        # print(stmt)
+
         # Executando a atualização
         session.execute(stmt)
+
         # Gravando a atualização
         session.commit()
 
@@ -160,3 +177,45 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
             logger.debug(f"Alterando a aplicação #{aplicacao_nome}")
             return {"message": "Aplicação atualizada ", "id":aplicacao_id}
 
+# -------------------------------
+# METODOS REFERENTE A TECNOLOGIAS
+# -------------------------------
+
+@app.post('/tecnologia', tags=[tecnologia_tag],
+          responses={"200":TecnologiaViewSchema, "409": ErrorSchema, "400": ErrorSchema})
+def add_tecnologia(form:TecnologiaSchema):
+    """Método para adicionar uma nova tecnologia na base de dados
+    
+    Retorna uma representação das tecnologias
+    """
+    tecnologia = Tecnologia(
+        descricao       = form.descricao,
+        status          = form.status,
+        tipo_tecnologia = form.tipo_tecnologia,
+        ultima_versao   = form.ultima_versao
+    )
+    print(f" Descrição: {tecnologia.descricao}, Status: {tecnologia.status}, Tipo Tecnologia: {tecnologia.tipo_tecnologia}, Versão: {tecnologia.ultima_versao}")
+    logger.debug(f"Adicionando tecnologia : '{tecnologia.descricao}'")
+    try:
+        # Criando conexao com a base de dados
+        session = Session()
+
+        # Adicionando aplicação
+        session.add(tecnologia)
+
+        session.commit()
+        logger.debug(f"Adicionado tecnologia : '{tecnologia.descricao}'")
+        return apresenta_tecnologia(tecnologia), 200
+    
+    except IntegrityError as e:
+        # como a duplicidade do nome é a provável razão do IntegrityError
+        error_msg = "Aplicação de mesmo nome já salvo na base:/"
+        logger.warning(f"Erro ao adicionar a tecnologia '{tecnologia.descricao}', {error_msg}")
+        return {"message": error_msg}, 409
+    
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = "Não foi possível salva novo item :/"
+        logger.warning(f"Erro ao adicionar a tecnologia '{tecnologia.descricao}', {error_msg}")
+        return {"mesage": error_msg}, 400
+    

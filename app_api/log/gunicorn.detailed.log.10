@@ -1,4 +1,66 @@
-[2023-06-19 23:05:54,757] INFO _log() L224  127.0.0.1 - - [19/Jun/2023 23:05:54] "[36mGET /openapi/static/images/swagger.svg HTTP/1.1[0m" 304 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
-[2023-06-19 23:06:06,522] WARNING upd_aplicacao() L131  Erro ao buscar a aplicação '2', Aplicação não encontrada na base :/ - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py L131 
-[2023-06-19 23:06:06,524] INFO _log() L224  127.0.0.1 - - [19/Jun/2023 23:06:06] "[33mPUT /aplicacao?id=2 HTTP/1.1[0m" 404 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
-[2023-06-19 23:06:45,603] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-19 23:34:00,663] ERROR log_exception() L1449 Exception on /aplicacao [PUT] - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py L1449
+Traceback (most recent call last):
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 1519, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 1517, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 1503, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_openapi3/scaffold.py", line 273, in wrapper
+    resp = _do_wrapper(
+           ^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_openapi3/do_wrapper.py", line 135, in _do_wrapper
+    response = func(**request_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py", line 128, in upd_aplicacao
+    logger.warning(f"Erro ao atualizar o nome da aplicação '{aplicacao_id}', {error_msg}")
+                                                             ^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'aplicacao_id' where it is not associated with a value
+[2023-06-19 23:34:00,665] INFO _log() L224  127.0.0.1 - - [19/Jun/2023 23:34:00] "[35m[1mPUT /aplicacao?id=2 HTTP/1.1[0m" 500 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-19 23:34:39,656] WARNING upd_aplicacao() L142  Erro ao buscar a aplicação '2', Aplicação não encontrada na base :/ - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py L142 
+[2023-06-19 23:34:39,657] INFO _log() L224  127.0.0.1 - - [19/Jun/2023 23:34:39] "[33mPUT /aplicacao?id=2&nome=SAP%20Success%20Factor HTTP/1.1[0m" 404 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-19 23:35:31,636] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-19 23:35:34,136] INFO _log() L224  127.0.0.1 - - [19/Jun/2023 23:35:34] "GET /openapi/swagger HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-19 23:35:34,159] INFO _log() L224  127.0.0.1 - - [19/Jun/2023 23:35:34] "[36mGET /openapi/static/css/swagger-ui.css HTTP/1.1[0m" 304 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-19 23:35:34,164] INFO _log() L224  127.0.0.1 - - [19/Jun/2023 23:35:34] "[36mGET /openapi/static/js/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-19 23:35:34,165] INFO _log() L224  127.0.0.1 - - [19/Jun/2023 23:35:34] "[36mGET /openapi/static/js/swagger-ui-bundle.js HTTP/1.1[0m" 304 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-19 23:35:34,330] INFO _log() L224  127.0.0.1 - - [19/Jun/2023 23:35:34] "GET /openapi/openapi.json HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-19 23:35:34,334] INFO _log() L224  127.0.0.1 - - [19/Jun/2023 23:35:34] "[36mGET /openapi/static/images/swagger.svg HTTP/1.1[0m" 304 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-19 23:35:39,904] ERROR log_exception() L1449 Exception on /aplicacao [PUT] - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py L1449
+Traceback (most recent call last):
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 1519, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 1517, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 1503, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_openapi3/scaffold.py", line 273, in wrapper
+    resp = _do_wrapper(
+           ^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_openapi3/do_wrapper.py", line 135, in _do_wrapper
+    response = func(**request_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py", line 128, in upd_aplicacao
+    logger.warning(f"Erro ao atualizar o nome da aplicação '{aplicacao_id}', {error_msg}")
+                                                             ^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'aplicacao_id' where it is not associated with a value
+[2023-06-19 23:35:39,907] INFO _log() L224  127.0.0.1 - - [19/Jun/2023 23:35:39] "[35m[1mPUT /aplicacao?id=2 HTTP/1.1[0m" 500 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-19 23:36:20,402] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
