@@ -3,7 +3,7 @@ from flask import redirect
 from urllib.parse import unquote
 
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import update
+# from sqlalchemy import update
 
 from model import Session, Aplicacao, Tecnologia
 from logger import logger
@@ -39,10 +39,10 @@ def add_aplicacao(form:AplicacaoSchema):
     """
 
     aplicacao = Aplicacao(
-        nome        = form.nome,
-        sigla       = form.sigla,
-        status      = form.status,
-        descricao   = form.descricao
+        nome = form.nome,
+        sigla = form.sigla,
+        status = form.status,
+        descricao = form.descricao
     )
     logger.debug(f"Adicionando aplicação de nome: '{aplicacao.nome}'")
     try:
@@ -52,19 +52,21 @@ def add_aplicacao(form:AplicacaoSchema):
         # Adicionando aplicação
         session.add(aplicacao)
 
+        # efetivando o comando de adição de novo item na tabela
         session.commit()
+
         logger.debug(f"Adicionado aplicação de nome: '{aplicacao.nome}'")
-        return apresenta_aplicacoes(aplicacao), 200
-    
+        return apresenta_aplicacao(aplicacao), 200
+
     except IntegrityError as e:
         # como a duplicidade do nome é a provável razão do IntegrityError
-        error_msg = "Aplicação de mesmo nome já salvo na base:/"
+        error_msg = f"Aplicação de mesmo nome já salvo na base ( {repr(e)} )"
         logger.warning(f"Erro ao adicionar a aplicação '{aplicacao.nome}', {error_msg}")
         return {"message": error_msg}, 409
-    
+
     except Exception as e:
         # caso um erro fora do previsto
-        error_msg = "Não foi possível salva novo item :/"
+        error_msg = f"Não foi possível salva novo item ( {repr(e)} )"
         logger.warning(f"Erro ao adicionar a aplicação '{aplicacao.nome}', {error_msg}")
         return {"mesage": error_msg}, 400
     
@@ -121,6 +123,7 @@ def del_aplicacao(query: AplicacaoBuscaSchema):
         # Retorna a representação da mensagem de confirmação
         logger.debug(f"Deletando aplicação #{aplicacao_nome}")
         return {"message": "Aplicação removida", "id":aplicacao_nome}
+    
     else:
         # Se a aplicação não foi encontrado
         erro_msg = "Aplicação não encontrada na base :/"
@@ -151,32 +154,43 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
     # Criando conexão com a base
     session = Session()
 
-    # Fazendo a busca
-    obj_id = session.query(Aplicacao).filter(Aplicacao.id == aplicacao_id).first()
+    try:
+        # Fazendo a busca
+        db_aplicacao = session.query(Aplicacao).filter(Aplicacao.id == aplicacao_id).first()
+        
+        if not db_aplicacao:
+            # Se a aplicação não foi encontrado
+            error_msg = "Aplicação não encontrada na base :/"
+            logger.warning(f"Erro ao buscar a aplicação '{aplicacao_id}', {error_msg}")
+            return {"message": error_msg}, 404
+        else:
+            # Montando a query para atualização do nome
+            #stmt = (update(Aplicacao)
+            #    .where(Aplicacao.id == obj_id.id)
+            #    .values(nome = aplicacao_nome))
+            # print(stmt)
+
+            if query.nome:
+                db_aplicacao.nome = query.nome
+
+            # Grava alteração
+            session.add(db_aplicacao)
+
+            # Executando a atualização
+            #session.execute(stmt)
+
+            # Gravando a atualização
+            session.commit()
+
+            logger.debug(f"Editado Aplicação de nome: '{db_aplicacao.nome}'")
+            return apresenta_aplicacao(db_aplicacao), 200
+
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = "Não foi possível salvar novo item :/"
+        logger.warning(f"Erro ao adicionar produto '{db_aplicacao.nome}', {error_msg}")
+        return {"mesage": error_msg}, 400
     
-    if not obj_id:
-        # Se a aplicação não foi encontrado
-        error_msg = "Aplicação não encontrada na base :/"
-        logger.warning(f"Erro ao buscar a aplicação '{aplicacao_id}', {error_msg}")
-        return {"message": error_msg}, 404
-    else:
-        # Montando a query para atualização do nome
-        stmt = (update(Aplicacao)
-            .where(Aplicacao.id == obj_id.id)
-            .values(nome = aplicacao_nome))
-        # print(stmt)
-
-        # Executando a atualização
-        session.execute(stmt)
-
-        # Gravando a atualização
-        session.commit()
-
-        if obj_id:
-            # Retorna a representação da mensagem de confirmação
-            logger.debug(f"Alterando a aplicação #{aplicacao_nome}")
-            return {"message": "Aplicação atualizada ", "id":aplicacao_id}
-
 # -------------------------------
 # METODOS REFERENTE A TECNOLOGIAS
 # -------------------------------
@@ -194,28 +208,33 @@ def add_tecnologia(form:TecnologiaSchema):
         tipo_tecnologia = form.tipo_tecnologia,
         ultima_versao   = form.ultima_versao
     )
-    print(f" Descrição: {tecnologia.descricao}, Status: {tecnologia.status}, Tipo Tecnologia: {tecnologia.tipo_tecnologia}, Versão: {tecnologia.ultima_versao}")
+
+    # Criando conexao com a base de dados
+    session = Session()
+    
+    print(f"Descrição: {tecnologia.descricao}, Status: {tecnologia.status}, \n" \
+          f"Tipo Tecnologia: {tecnologia.tipo_tecnologia}, Versão: {tecnologia.ultima_versao}")
+    
     logger.debug(f"Adicionando tecnologia : '{tecnologia.descricao}'")
     try:
-        # Criando conexao com a base de dados
-        session = Session()
-
         # Adicionando aplicação
         session.add(tecnologia)
 
+         # efetivando o comando de adição de novo item na tabela
         session.commit()
+
         logger.debug(f"Adicionado tecnologia : '{tecnologia.descricao}'")
         return apresenta_tecnologia(tecnologia), 200
     
     except IntegrityError as e:
         # como a duplicidade do nome é a provável razão do IntegrityError
-        error_msg = "Aplicação de mesmo nome já salvo na base:/"
+        error_msg = f"Aplicação de mesmo nome já salvo na base. Detalhe: {repr(e)}"
         logger.warning(f"Erro ao adicionar a tecnologia '{tecnologia.descricao}', {error_msg}")
-        return {"message": error_msg}, 409
-    
+        return {"message": error_msg}, 409 
+       
     except Exception as e:
         # caso um erro fora do previsto
-        error_msg = "Não foi possível salva novo item :/"
+        error_msg = f"Não foi possível salva novo item. Detalhe: {repr(e)}"
         logger.warning(f"Erro ao adicionar a tecnologia '{tecnologia.descricao}', {error_msg}")
         return {"mesage": error_msg}, 400
     

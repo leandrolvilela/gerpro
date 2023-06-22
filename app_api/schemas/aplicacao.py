@@ -2,8 +2,6 @@ from pydantic import BaseModel
 from typing import Optional, List
 from model.aplicacao import Aplicacao
 
-# from schemas import ComentarioSchema
-
 class AplicacaoSchema(BaseModel):
     """ Define uma nova aplicação a ser inserida ou atualizada deve ser representada (aplicacao.py)
     """

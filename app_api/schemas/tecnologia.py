@@ -26,7 +26,7 @@ class ListagemTecnologiaSchema(BaseModel):
 
 # As funções da classe do schemas não podem conter espaços iniciais (identação)
 # Pois ocorre erro de importação/utilização no app.py
-def apresenta_tecnologia(tecnologias: List[Tecnologia]):
+def apresenta_tecnologias(tecnologias: List[Tecnologia]):
     """ Retorna uma representação da tecnologia seguindo o schema definido em
         TecnologiaViewSchema. (tecnologia.py)
     """
@@ -40,3 +40,20 @@ def apresenta_tecnologia(tecnologias: List[Tecnologia]):
         })
         
     return {"tecnologias": result}
+
+class TecnologiaDelSchema(BaseModel):
+    """ Define como deve ser a estrutura de dado retornado após uma requisição de remoção (tecnologia.py)
+    """
+    mesage: str
+    nome: str
+
+def apresenta_tecnologia(tecnologia: Tecnologia):
+    """ Retorna uma representação da tecnologia seguindo o schema definido em
+        TecnologiaViewSchema.
+    """
+    return {
+        "descricao"         : tecnologia.descricao,
+        "status"            : tecnologia.status,
+        "tipo_tecnologia"   : tecnologia.tipo_tecnologia,
+        "ultima_versao"     : tecnologia.ultima_versao
+    }

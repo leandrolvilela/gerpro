@@ -6,5 +6,5 @@ from schemas.aplicacao import AplicacaoSchema, AplicacaoViewSchema, AplicacaoBus
                               ListagemAplicacoesSchema, AplicacaoDelSchema, AplicacaoUpdSchema, \
                                apresenta_aplicacao, apresenta_aplicacoes
 from schemas.tecnologia import TecnologiaSchema, ListagemTecnologiaSchema, TecnologiaViewSchema, \
-                                apresenta_tecnologia
+                                apresenta_tecnologia, apresenta_tecnologias
 from schemas.error import ErrorSchema
