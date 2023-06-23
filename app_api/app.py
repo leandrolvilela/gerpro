@@ -60,7 +60,7 @@ def add_aplicacao(form:AplicacaoSchema):
 
     except IntegrityError as e:
         # como a duplicidade do nome é a provável razão do IntegrityError
-        error_msg = f"Aplicação de mesmo nome já salvo na base ( {repr(e)} )"
+        error_msg = f"Aplicação de mesmo nome e/ou sigla já salvo na base ( {repr(e)} )"
         logger.warning(f"Erro ao adicionar a aplicação '{aplicacao.nome}', {error_msg}")
         return {"message": error_msg}, 409
 
@@ -71,14 +71,37 @@ def add_aplicacao(form:AplicacaoSchema):
         return {"mesage": error_msg}, 400
     
     
+@app.get('/aplicacoes', tags=[aplicacao_tag],
+         responses={"200": ListagemAplicacoesSchema, "404": ErrorSchema})
+def get_aplicacoes():
+    """Faz a busca por todas as Aplicações cadastradas
+
+    Retorna uma representação da listagem de aplicações.
+    """
+    logger.debug(f"Coletando aplicações ")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    aplicacoes = session.query(Aplicacao).all()
+
+    if not aplicacoes:
+        # se não há aplicações cadastradas
+        return {"aplicacoes": []}, 200
+    else:
+        logger.debug(f"%d rodutos econtrados" % len(aplicacoes))
+        # retorna a representação de produto
+        return apresenta_aplicacoes(aplicacoes), 200
+    
+
 @app.get('/aplicacao', tags=[aplicacao_tag],
          responses={"200":AplicacaoSchema, "404": ErrorSchema})
-def get_produto(query: AplicacaoBuscaSchema):
+def get_aplicacao(query: AplicacaoBuscaSchema):
     """ Faz a busca por uma Aplicação a partir do id do produto
         Retorna uma representação das aplicações
     """ 
     aplicacao_id = query.id
     aplicacao_nome = unquote(unquote(query.nome))
+    aplicacao_sigla = unquote(unquote(query.sigla))
     logger.debug(f"Coletando dados sobre a aplicação #{aplicacao_id}")
     # criando conexão com a base
     session = Session()
@@ -87,7 +110,10 @@ def get_produto(query: AplicacaoBuscaSchema):
     if aplicacao_id:
         aplicacao = session.query(Aplicacao).filter(Aplicacao.id == aplicacao_id).first()
     else:
-        aplicacao = session.query(Aplicacao).filter(Aplicacao.nome == aplicacao_nome).first()
+        if aplicacao_nome:
+            aplicacao = session.query(Aplicacao).filter(Aplicacao.nome == aplicacao_nome).first()
+        else:
+            aplicacao = session.query(Aplicacao).filter(Aplicacao.sigla == aplicacao_sigla).first()
 
     if not aplicacao:
         # Se a aplicação não foi encontrado
@@ -102,32 +128,43 @@ def get_produto(query: AplicacaoBuscaSchema):
 
 @app.delete('/aplicacao', tags=[aplicacao_tag],
             responses={"200":AplicacaoDelSchema, "404": ErrorSchema})
-def del_aplicacao(query: AplicacaoBuscaSchema):
+def del_aplicacao(query: AplicacaoDltSchema):
     """Deleta uma aplicação a partir do nome da aplicação informado
     
     Retorna uma mensagem de configuração da remoção
     """
 
-    aplicacao_nome = unquote(unquote(query.nome))
-    print(aplicacao_nome)
-    logger.debug(f"Deletando dados sobre a aplicação #{aplicacao_nome}")
-
+    aplicacao_nome  = unquote(unquote(query.nome))
+    aplicacao_id    = query.id
+    
+    print(f" APLICACAO: {aplicacao_nome} ID: {aplicacao_id}")
+    logger.debug(f"Deletando dados sobre a aplicação #{aplicacao_id}-{aplicacao_nome}")
+    
     # Criando conexão com a base
     session = Session()
 
-    # Fazendo a remoção
-    count = session.query(Aplicacao).filter(Aplicacao.nome == aplicacao_nome).delete()
-    session.commit()
+    if aplicacao_id and aplicacao_nome:
+        # Fazendo a remoção pelo id da aplicação e nome
+        count = session.query(Aplicacao).filter(Aplicacao.id == aplicacao_id and Aplicacao.nome == aplicacao_nome).delete()
+    else:
+        if aplicacao_id:
+            # Fazendo a remoção pelo id da aplicação
+            count = session.query(Aplicacao).filter(Aplicacao.id == aplicacao_id).delete()
+        else:
+            # Fazendo a remoção pelo nome da aplicação
+            count = session.query(Aplicacao).filter(Aplicacao.nome == aplicacao_nome).delete()
 
+    session.commit()
+    # print(count)
     if count:
         # Retorna a representação da mensagem de confirmação
-        logger.debug(f"Deletando aplicação #{aplicacao_nome}")
+        logger.debug(f"Deletando aplicação #{aplicacao_nome}.")
         return {"message": "Aplicação removida", "id":aplicacao_nome}
     
     else:
         # Se a aplicação não foi encontrado
         erro_msg = "Aplicação não encontrada na base :/"
-        logger.warning(f"Erro ao deletar a aplicação #'{aplicacao_nome}', {erro_msg}")
+        logger.warning(f"Erro ao deletar a aplicação id {aplicacao_id} #'{aplicacao_nome}', {erro_msg}")
         return {"message": erro_msg}, 404
     
 
@@ -140,7 +177,7 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
     """
     aplicacao_nome = unquote(unquote(query.nome))
     aplicacao_id   = query.id
-    print(aplicacao_nome)
+    # print(aplicacao_nome)
     
     if not aplicacao_nome or aplicacao_nome == "":
         # Se não foi informado nenhum nome
@@ -148,7 +185,7 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
         logger.warning(f"Erro ao atualizar o nome da aplicação '{aplicacao_id}', {error_msg}")
         return {"message": error_msg}, 404
     
-    print(aplicacao_nome, "ID: ",aplicacao_id)
+    #print(aplicacao_nome, "ID: ",aplicacao_id)
     logger.debug(f"Atualizando dados sobre a aplicação #{aplicacao_nome}")
 
     # Criando conexão com a base
@@ -160,21 +197,21 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
         
         if not db_aplicacao:
             # Se a aplicação não foi encontrado
-            error_msg = "Aplicação não encontrada na base :/"
+            error_msg = f"Aplicação não encontrada na base. Detalhe: {repr(e)}"
             logger.warning(f"Erro ao buscar a aplicação '{aplicacao_id}', {error_msg}")
             return {"message": error_msg}, 404
         else:
-            # Montando a query para atualização do nome
-            #stmt = (update(Aplicacao)
-            #    .where(Aplicacao.id == obj_id.id)
-            #    .values(nome = aplicacao_nome))
-            # print(stmt)
-
             if query.nome:
                 db_aplicacao.nome = query.nome
 
             # Grava alteração
             session.add(db_aplicacao)
+
+            # Montando a query para atualização do nome
+            #stmt = (update(Aplicacao)
+            #    .where(Aplicacao.id == obj_id.id)
+            #    .values(nome = aplicacao_nome))
+            # print(stmt)
 
             # Executando a atualização
             #session.execute(stmt)
@@ -187,7 +224,7 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
 
     except Exception as e:
         # caso um erro fora do previsto
-        error_msg = "Não foi possível salvar novo item :/"
+        error_msg = f"Não foi possível salvar novo item . Detalhe: {repr(e)}"
         logger.warning(f"Erro ao adicionar produto '{db_aplicacao.nome}', {error_msg}")
         return {"mesage": error_msg}, 400
     
@@ -212,8 +249,8 @@ def add_tecnologia(form:TecnologiaSchema):
     # Criando conexao com a base de dados
     session = Session()
     
-    print(f"Descrição: {tecnologia.descricao}, Status: {tecnologia.status}, \n" \
-          f"Tipo Tecnologia: {tecnologia.tipo_tecnologia}, Versão: {tecnologia.ultima_versao}")
+    # print(f"Descrição: {tecnologia.descricao}, Status: {tecnologia.status}, \n" \
+    #   f"Tipo Tecnologia: {tecnologia.tipo_tecnologia}, Versão: {tecnologia.ultima_versao}")
     
     logger.debug(f"Adicionando tecnologia : '{tecnologia.descricao}'")
     try:
@@ -237,4 +274,55 @@ def add_tecnologia(form:TecnologiaSchema):
         error_msg = f"Não foi possível salva novo item. Detalhe: {repr(e)}"
         logger.warning(f"Erro ao adicionar a tecnologia '{tecnologia.descricao}', {error_msg}")
         return {"mesage": error_msg}, 400
+
+@app.get('/tecnologias', tags=[tecnologia_tag],
+         responses={"200": ListagemTecnologiaSchema, "404": ErrorSchema})
+def get_tecnologias():
+    """Faz a busca por todas as tecnologias cadastradas
+
+    Retorna uma representação da listagem de tecnologias.
+    """
+    logger.debug(f"Coletando tecnologias")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    tecnologias = session.query(Tecnologia).all()
+
+    if not tecnologias:
+        # se não há tecnologias cadastradas
+        return {"tecnologias": []}, 200
+    else:
+        logger.debug(f"tecnologias econtrados {len(tecnologias)}")
+        # retorna a representação de produto
+        return apresenta_tecnologias(tecnologias), 200
+
+
+@app.get('/tecnologia', tags=[tecnologia_tag],
+         responses={"200":TecnologiaSchema, "404": ErrorSchema})
+def get_tecnologia(query: TecnologiaBuscaSchema):
+    """ Faz a busca por uma Tecnologia a partir do id do produto e tipo de tecnologia
+        Retorna uma representação das aplicações
+    """ 
+    tecnologia_id = query.id
+    tecnologia_descricao = unquote(unquote(query.descricao))
     
+    logger.debug(f"Coletando dados sobre a tecnologia #{tecnologia_id}")
+
+    # criando conexão com a base
+    session = Session()
+
+    # Fazendo a busca
+    if tecnologia_id:
+        tecnologia = session.query(Tecnologia).filter(Tecnologia.id == tecnologia_id).first()
+    else:
+        tecnologia = session.query(Tecnologia).filter(Tecnologia.descricao == tecnologia_descricao).first()
+        
+    if not tecnologia:
+        # Se a Tecnologia não foi encontrado
+        error_msg = "Tecnologia não encontrada na base :/"
+        logger.warning(f"Erro ao buscar a aplicação '{tecnologia_id}', {error_msg}")
+        return {"message": error_msg}, 404
+    else:
+        logger.debug(f"Tecnologia encontrada: '{tecnologia.descricao}'")
+        # retorna a representação da Tecnologia
+        return apresenta_tecnologia(tecnologia), 200

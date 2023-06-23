@@ -1,78 +1,55 @@
-[2023-06-21 23:54:57,047] ERROR log_exception() L1449 Exception on /aplicacao [POST] - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py L1449
+[2023-06-23 19:19:35,994] INFO _log() L224   * Restarting with stat - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 19:19:38,477] WARNING del_aplicacao() L148  Erro ao deletar a aplicação id 8 #'SAP Success Factor', Aplicação não encontrada na base :/ - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py L148 
+[2023-06-23 19:19:38,478] INFO _log() L224  127.0.0.1 - - [23/Jun/2023 19:19:38] "[33mDELETE /aplicacao?id=8&nome=SAP%20Success%20Factor HTTP/1.1[0m" 404 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 19:19:58,869] WARNING del_aplicacao() L148  Erro ao deletar a aplicação id 8 #'', Aplicação não encontrada na base :/ - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py L148 
+[2023-06-23 19:19:58,870] INFO _log() L224  127.0.0.1 - - [23/Jun/2023 19:19:58] "[33mDELETE /aplicacao?id=8 HTTP/1.1[0m" 404 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 19:20:20,341] WARNING del_aplicacao() L148  Erro ao deletar a aplicação id 0 #'SAP Success Factor5', Aplicação não encontrada na base :/ - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py L148 
+[2023-06-23 19:20:20,342] INFO _log() L224  127.0.0.1 - - [23/Jun/2023 19:20:20] "[33mDELETE /aplicacao?nome=SAP%20Success%20Factor5 HTTP/1.1[0m" 404 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 19:21:53,524] INFO _log() L224  127.0.0.1 - - [23/Jun/2023 19:21:53] "DELETE /aplicacao?nome=SAP%20Success%20Factor HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 19:29:46,633] WARNING add_tecnologia() L250  Erro ao adicionar a tecnologia 'JAVA', Aplicação de mesmo nome já salvo na base. Detalhe: IntegrityError('(sqlite3.IntegrityError) UNIQUE constraint failed: tecnologia.descricao') - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py L250 
+[2023-06-23 19:29:46,633] INFO _log() L224  127.0.0.1 - - [23/Jun/2023 19:29:46] "[31m[1mPOST /tecnologia HTTP/1.1[0m" 409 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 19:30:17,899] WARNING add_tecnologia() L250  Erro ao adicionar a tecnologia 'C#', Aplicação de mesmo nome já salvo na base. Detalhe: IntegrityError('(sqlite3.IntegrityError) UNIQUE constraint failed: tecnologia.descricao') - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py L250 
+[2023-06-23 19:30:17,900] INFO _log() L224  127.0.0.1 - - [23/Jun/2023 19:30:17] "[31m[1mPOST /tecnologia HTTP/1.1[0m" 409 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 19:31:19,450] INFO _log() L224  127.0.0.1 - - [23/Jun/2023 19:31:19] "POST /tecnologia HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 19:31:55,487] WARNING add_tecnologia() L250  Erro ao adicionar a tecnologia 'Python', Aplicação de mesmo nome já salvo na base. Detalhe: IntegrityError('(sqlite3.IntegrityError) UNIQUE constraint failed: tecnologia.descricao') - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py L250 
+[2023-06-23 19:31:55,487] INFO _log() L224  127.0.0.1 - - [23/Jun/2023 19:31:55] "[31m[1mPOST /tecnologia HTTP/1.1[0m" 409 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 19:53:37,083] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/schemas/__init__.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 19:53:37,212] INFO _log() L224   * Restarting with stat - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 20:00:08,528] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 20:00:08,648] INFO _log() L224   * Restarting with stat - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 20:00:57,316] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 20:00:57,430] INFO _log() L224   * Restarting with stat - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 20:01:42,617] INFO _log() L224  127.0.0.1 - - [23/Jun/2023 20:01:42] "[35m[1mGET /openapi/swagger HTTP/1.1[0m" 500 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 20:01:42,638] ERROR _log() L224  Error on request:
 Traceback (most recent call last):
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py", line 60, in add_aplicacao
-    return apresenta_aplicacoes(aplicacao), 200
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/schemas/aplicacao.py", line 34, in apresenta_aplicacoes
-    for aplicacao in aplicacoes:
-TypeError: 'Aplicacao' object is not iterable
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 2073, in wsgi_app
-    response = self.full_dispatch_request()
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 1519, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_cors/extension.py", line 165, in wrapped_function
-    return cors_after_request(app.make_response(f(*args, **kwargs)))
-                                                ^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 1517, in full_dispatch_request
-    rv = self.dispatch_request()
-         ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 1503, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_openapi3/scaffold.py", line 191, in wrapper
-    resp = _do_wrapper(
-           ^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_openapi3/do_wrapper.py", line 135, in _do_wrapper
-    response = func(**request_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py", line 70, in add_aplicacao
-    error_msg = "Não foi possível salva novo item :/" + str(type(e)) + " - "+ str(e.exceptions)
-                                                                                  ^^^^^^^^^^^^
-AttributeError: 'TypeError' object has no attribute 'exceptions'
-[2023-06-21 23:54:57,051] INFO _log() L224  127.0.0.1 - - [21/Jun/2023 23:54:57] "[35m[1mPOST /aplicacao HTTP/1.1[0m" 500 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
-[2023-06-21 23:55:59,178] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
-[2023-06-21 23:56:09,202] ERROR log_exception() L1449 Exception on /aplicacao [POST] - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py L1449
-Traceback (most recent call last):
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py", line 60, in add_aplicacao
-    return apresenta_aplicacoes(aplicacao), 200
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/schemas/aplicacao.py", line 34, in apresenta_aplicacoes
-    for aplicacao in aplicacoes:
-TypeError: 'Aplicacao' object is not iterable
-
-During handling of the above exception, another exception occurred:
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/serving.py", line 335, in run_wsgi
+    execute(self.server.app)
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/serving.py", line 322, in execute
+    application_iter = app(environ, start_response)
+flask.cli.NoAppException: While importing 'app', an ImportError was raised:
 
 Traceback (most recent call last):
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 2073, in wsgi_app
-    response = self.full_dispatch_request()
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 1519, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_cors/extension.py", line 165, in wrapped_function
-    return cors_after_request(app.make_response(f(*args, **kwargs)))
-                                                ^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 1517, in full_dispatch_request
-    rv = self.dispatch_request()
-         ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 1503, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_openapi3/scaffold.py", line 191, in wrapper
-    resp = _do_wrapper(
-           ^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_openapi3/do_wrapper.py", line 135, in _do_wrapper
-    response = func(**request_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py", line 70, in add_aplicacao
-    error_msg = f"Não foi possível salva novo item :/ {type(e)} - {e.exceptions}"
-                                                                   ^^^^^^^^^^^^
-AttributeError: 'TypeError' object has no attribute 'exceptions'
-[2023-06-21 23:56:09,205] INFO _log() L224  127.0.0.1 - - [21/Jun/2023 23:56:09] "[35m[1mPOST /aplicacao HTTP/1.1[0m" 500 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
-[2023-06-21 23:57:07,105] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/cli.py", line 214, in locate_app
+    __import__(module_name)
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py", line 10, in <module>
+    from schemas import *
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/schemas/__init__.py", line 8, in <module>
+    from schemas.tecnologia import TecnologiaSchema, ListagemTecnologiaSchema, TecnologiaViewSchema, \
+ImportError: cannot import name 'TecnologiaBuscaSchema' from 'schemas.tecnologia' (/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/schemas/tecnologia.py) - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 20:01:42,921] INFO _log() L224  127.0.0.1 - - [23/Jun/2023 20:01:42] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-06-23 20:01:42,922] ERROR _log() L224  Error on request:
+Traceback (most recent call last):
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/serving.py", line 335, in run_wsgi
+    execute(self.server.app)
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/serving.py", line 322, in execute
+    application_iter = app(environ, start_response)
+flask.cli.NoAppException: While importing 'app', an ImportError was raised:
+
+Traceback (most recent call last):
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/cli.py", line 214, in locate_app
+    __import__(module_name)
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py", line 10, in <module>
+    from schemas import *
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/schemas/__init__.py", line 8, in <module>
+    from schemas.tecnologia import TecnologiaSchema, ListagemTecnologiaSchema, TecnologiaViewSchema, \
+ImportError: cannot import name 'TecnologiaBuscaSchema' from 'schemas.tecnologia' (/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/schemas/tecnologia.py) - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 

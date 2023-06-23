@@ -57,3 +57,11 @@ def apresenta_tecnologia(tecnologia: Tecnologia):
         "tipo_tecnologia"   : tecnologia.tipo_tecnologia,
         "ultima_versao"     : tecnologia.ultima_versao
     }
+
+
+class TecnologiaBuscaSchema(BaseModel):
+    """ Define como deve ser a estrutura que representa a busca. Que será
+        feita apenas com base no id, descricao e tipo de tecnologia, seguindo a mesma ordem de prioridade para o filtro.
+    """
+    id: int = 0
+    descricao: str = ""

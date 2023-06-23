@@ -69,7 +69,7 @@ class AplicacaoViewSchema(BaseModel):
 
 class AplicacaoBuscaSchema(BaseModel):
     """ Define como deve ser a estrutura que representa a busca. Que será
-        feita apenas com base no nome e ID da aplicação.
+        feita apenas com base no id, nome e sigla da aplicação, seguindo a mesma ordem de prioridade para o filtro.
     """
     id: int = 0
     nome: str = ""
@@ -82,3 +82,10 @@ class AplicacaoUpdSchema(BaseModel):
     """
     id: int = 1
     nome: str = "SAP Success Factor"
+
+class AplicacaoDltSchema(BaseModel):
+    """ Define como deve ser a estrutura do dado retornado após uma requisição
+        de atualização.
+    """
+    id: int = 0
+    nome: str = ""

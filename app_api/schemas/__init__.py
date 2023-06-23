@@ -4,7 +4,7 @@
 #                             apresenta_produto, apresenta_produtos
 from schemas.aplicacao import AplicacaoSchema, AplicacaoViewSchema, AplicacaoBuscaSchema, \
                               ListagemAplicacoesSchema, AplicacaoDelSchema, AplicacaoUpdSchema, \
-                               apresenta_aplicacao, apresenta_aplicacoes
+                              AplicacaoDltSchema, apresenta_aplicacao, apresenta_aplicacoes
 from schemas.tecnologia import TecnologiaSchema, ListagemTecnologiaSchema, TecnologiaViewSchema, \
-                                apresenta_tecnologia, apresenta_tecnologias
+                                TecnologiaBuscaSchema, apresenta_tecnologia, apresenta_tecnologias
 from schemas.error import ErrorSchema
