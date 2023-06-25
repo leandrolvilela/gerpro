@@ -81,7 +81,10 @@ class AplicacaoUpdSchema(BaseModel):
         de atualização.
     """
     id: int = 1
-    nome: str = "SAP Success Factor"
+    nome: Optional[str] = "SAP Success Factor"
+    sigla: Optional[str] = "SSF"
+    descricao: Optional[str] = "SAP Success Factor"
+    status: Optional[str] = "AA"
 
 class AplicacaoDltSchema(BaseModel):
     """ Define como deve ser a estrutura do dado retornado após uma requisição

@@ -39,9 +39,9 @@ def add_aplicacao(form:AplicacaoSchema):
     """
 
     aplicacao = Aplicacao(
-        nome = form.nome,
-        sigla = form.sigla,
-        status = form.status,
+        nome      = form.nome,
+        sigla     = form.sigla,
+        status    = form.status,
         descricao = form.descricao
     )
     logger.debug(f"Adicionando aplicação de nome: '{aplicacao.nome}'")
@@ -166,7 +166,14 @@ def del_aplicacao(query: AplicacaoDltSchema):
         erro_msg = "Aplicação não encontrada na base :/"
         logger.warning(f"Erro ao deletar a aplicação id {aplicacao_id} #'{aplicacao_nome}', {erro_msg}")
         return {"message": erro_msg}, 404
-    
+
+
+# Definição da função que verifica se os campos foram alterados
+def upd_campo_modificados(campo, novo_valor):
+    if novo_valor is not None and novo_valor != "" and campo != novo_valor:
+        return novo_valor
+    return campo  
+
 
 @app.put('/aplicacao', tags=[aplicacao_tag],
          responses={"200": AplicacaoSchema, "404" : ErrorSchema})
@@ -175,8 +182,12 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
     
     Retorna uma mensagem de configuração da remoção
     """
-    aplicacao_nome = unquote(unquote(query.nome))
-    aplicacao_id   = query.id
+    aplicacao_id        = query.id
+    aplicacao_nome      = unquote(unquote(query.nome))
+    aplicacao_sigla     = query.sigla
+    aplicacao_descricao = query.descricao
+    aplicacao_status    = query.status
+
     # print(aplicacao_nome)
     
     if not aplicacao_nome or aplicacao_nome == "":
@@ -192,7 +203,7 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
     session = Session()
 
     try:
-        # Fazendo a busca
+        # Fazendo a busca pelo ID da aplicação
         db_aplicacao = session.query(Aplicacao).filter(Aplicacao.id == aplicacao_id).first()
         
         if not db_aplicacao:
@@ -201,20 +212,13 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
             logger.warning(f"Erro ao buscar a aplicação '{aplicacao_id}', {error_msg}")
             return {"message": error_msg}, 404
         else:
-            if query.nome:
-                db_aplicacao.nome = query.nome
+            db_aplicacao.nome      = upd_campo_modificados(db_aplicacao.nome, aplicacao_nome)
+            db_aplicacao.sigla     = upd_campo_modificados(db_aplicacao.sigla, aplicacao_sigla)
+            db_aplicacao.descricao = upd_campo_modificados(db_aplicacao.descricao, aplicacao_descricao)
+            db_aplicacao.status    = upd_campo_modificados(db_aplicacao.status, aplicacao_status)
 
             # Grava alteração
             session.add(db_aplicacao)
-
-            # Montando a query para atualização do nome
-            #stmt = (update(Aplicacao)
-            #    .where(Aplicacao.id == obj_id.id)
-            #    .values(nome = aplicacao_nome))
-            # print(stmt)
-
-            # Executando a atualização
-            #session.execute(stmt)
 
             # Gravando a atualização
             session.commit()
@@ -225,7 +229,7 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
     except Exception as e:
         # caso um erro fora do previsto
         error_msg = f"Não foi possível salvar novo item . Detalhe: {repr(e)}"
-        logger.warning(f"Erro ao adicionar produto '{db_aplicacao.nome}', {error_msg}")
+        logger.warning(f"Erro ao adicionar aplicação '{db_aplicacao.nome}', {error_msg}")
         return {"mesage": error_msg}, 400
     
 # -------------------------------
@@ -326,3 +330,100 @@ def get_tecnologia(query: TecnologiaBuscaSchema):
         logger.debug(f"Tecnologia encontrada: '{tecnologia.descricao}'")
         # retorna a representação da Tecnologia
         return apresenta_tecnologia(tecnologia), 200
+
+
+@app.delete('/tecnologia', tags=[tecnologia_tag],
+            responses={"200":TecnologiaDelSchema, "404": ErrorSchema})
+def del_tecnologia(query: TecnologiaBuscaSchema):
+    """Deleta uma aplicação a partir do nome da tecnologia informado
+    
+    Retorna uma mensagem de configuração da remoção
+    """
+    tecnologia_id         = query.id
+    tecnologia_descricao  = unquote(unquote(query.descricao))
+        
+    # print(f" TECNOLOGIA: {tecnologia_descricao} ID: {tecnologia_id}")
+    logger.debug(f"Deletando dados sobre a tecnologia #{tecnologia_id}-{tecnologia_descricao}")
+    
+    # Criando conexão com a base
+    session = Session()
+
+    if tecnologia_id and tecnologia_descricao:
+        # Fazendo a remoção pelo id da tecnologia e descricao
+        count = session.query(Tecnologia).filter(Tecnologia.id == tecnologia_id and Tecnologia.descricao == tecnologia_descricao).delete()
+    else:
+        if tecnologia_id:
+            # Fazendo a remoção pelo id da tecnologia
+            count = session.query(Tecnologia).filter(Tecnologia.id == tecnologia_id).delete()
+        else:
+            # Fazendo a remoção pelo descrição da tecnologia
+            count = session.query(Tecnologia).filter(Tecnologia.descricao == tecnologia_descricao).delete()
+
+    session.commit()
+    # print(count)
+    if count:
+        # Retorna a representação da mensagem de confirmação
+        logger.debug(f"Deletando tecnologia #{tecnologia_descricao}.")
+        return {"message": "Tecnologia removida", "id":tecnologia_descricao}
+    
+    else:
+        # Se a tecnologia não foi encontrado
+        erro_msg = "Tecnologia não encontrada na base :/"
+        logger.warning(f"Erro ao deletar a tecnologia id {tecnologia_id} #'{tecnologia_descricao}', {erro_msg}")
+        return {"message": erro_msg}, 404
+
+
+@app.put('/tecnologia', tags=[tecnologia_tag],
+         responses={"200": TecnologiaSchema, "404" : ErrorSchema})
+def upd_tecnologia(query: TecnologiaUpdSchema):
+    """Atualiza uma tecnologia a partir do ID da tecnologia informado
+    
+    Retorna uma mensagem de configuração da remoção
+    """
+    tecnologia_id        = query.id
+    tecnologia_descricao = unquote(unquote(query.descricao))
+    tecnologia_tipo      = query.tipo_tecnologia
+    tecnologia_status    = query.status
+    tecnologia_versao    = query.ultima_versao
+
+    if not tecnologia_descricao or tecnologia_descricao == "":
+        # Se não foi informado nenhum nome
+        error_msg = "Nome da tecnologia na base não pode ficar em branco:/"
+        logger.warning(f"Erro ao atualizar o nome da tecnologia '{tecnologia_id}', {error_msg}")
+        return {"message": error_msg}, 404
+    
+    #print(aplicacao_nome, "ID: ",aplicacao_id)
+    logger.debug(f"Atualizando dados sobre a tecnologia #{tecnologia_descricao}")
+
+    # Criando conexão com a base
+    session = Session()
+
+    try:
+        # Fazendo a busca pelo ID da tecnologia
+        db_tecnologia = session.query(Tecnologia).filter(Tecnologia.id == tecnologia_id).first()
+        
+        if not db_tecnologia:
+            # Se a tecnologia não foi encontrado
+            error_msg = f"Tecnologia não encontrada na base. Detalhe: {repr(e)}"
+            logger.warning(f"Erro ao buscar a tecnologia '{tecnologia_id}', {error_msg}")
+            return {"message": error_msg}, 404
+        else:
+            db_tecnologia.descricao       = upd_campo_modificados(db_tecnologia.descricao, tecnologia_descricao)
+            db_tecnologia.tipo_tecnologia = upd_campo_modificados(db_tecnologia.tipo_tecnologia, tecnologia_tipo)
+            db_tecnologia.status          = upd_campo_modificados(db_tecnologia.status, tecnologia_status)
+            db_tecnologia.ultima_versao   = upd_campo_modificados(db_tecnologia.ultima_versao, tecnologia_versao)
+
+            # Grava alteração
+            session.add(db_tecnologia)
+
+            # Gravando a atualização
+            session.commit()
+
+            logger.debug(f"Editado descrição da tecnologia: '{db_tecnologia.descricao}'")
+            return apresenta_tecnologia(db_tecnologia), 200
+
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = f"Não foi possível salvar novo item . Detalhe: {repr(e)}"
+        logger.warning(f"Erro ao adicionar tecnologia '{db_tecnologia.descricao}', {error_msg}")
+        return {"mesage": error_msg}, 400

@@ -65,3 +65,13 @@ class TecnologiaBuscaSchema(BaseModel):
     """
     id: int = 0
     descricao: str = ""
+
+class TecnologiaUpdSchema(BaseModel):
+    """ Define como deve ser a estrutura do dado retornado após uma requisição
+        de atualização.
+    """
+    id:              int           = 1
+    descricao:       Optional[str] = "Java"
+    tipo_tecnologia: Optional[str] = "Linguagem de Programação"
+    status:          Optional[str] = "A"
+    ultima_versao:   Optional[str] = ""
