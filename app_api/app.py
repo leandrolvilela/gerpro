@@ -3,7 +3,7 @@ from flask import redirect
 from urllib.parse import unquote
 
 from sqlalchemy.exc import IntegrityError
-# from sqlalchemy import update
+from sqlalchemy.orm import lazyload
 
 from model import Session, Aplicacao, Tecnologia
 from logger import logger
@@ -83,12 +83,12 @@ def get_aplicacoes():
     session = Session()
     # fazendo a busca
     aplicacoes = session.query(Aplicacao).all()
-
+    
     if not aplicacoes:
         # se não há aplicações cadastradas
         return {"aplicacoes": []}, 200
     else:
-        logger.debug(f"%d rodutos econtrados" % len(aplicacoes))
+        logger.debug(f"Aplicações econtradas {len(aplicacoes)}")
         # retorna a representação de produto
         return apresenta_aplicacoes(aplicacoes), 200
     
@@ -137,7 +137,7 @@ def del_aplicacao(query: AplicacaoDltSchema):
     aplicacao_nome  = unquote(unquote(query.nome))
     aplicacao_id    = query.id
     
-    print(f" APLICACAO: {aplicacao_nome} ID: {aplicacao_id}")
+    # print(f" APLICACAO: {aplicacao_nome} ID: {aplicacao_id}")
     logger.debug(f"Deletando dados sobre a aplicação #{aplicacao_id}-{aplicacao_nome}")
     
     # Criando conexão com a base

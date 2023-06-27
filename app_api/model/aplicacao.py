@@ -1,9 +1,10 @@
-from sqlalchemy import Column, String, Integer, DateTime, Float
+from sqlalchemy import Column, String, Integer, DateTime, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from typing import Union
 
 from model import Base
+from .app_tech import app_tech
 
 class Aplicacao(Base):
     __tablename__ = 'aplicacao'
@@ -15,6 +16,8 @@ class Aplicacao(Base):
     status          = Column(String(2), default="AA")
     data_insercao   = Column(DateTime, default=datetime.now())
 
+    tecnologias = relationship("Tecnologia", secondary="app_tech", back_populates="aplicacoes")
+    
     def __init__(self,  nome:str, 
                         sigla:str, 
                         descricao:str, 

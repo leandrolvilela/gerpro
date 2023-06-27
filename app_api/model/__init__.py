@@ -7,6 +7,7 @@ import os
 from model.base import Base
 from model.aplicacao import Aplicacao
 from model.tecnologia import Tecnologia
+# from model.app_tech import AppTech
 
 db_path = "database/"
 # Verifica se o diretorio não existe

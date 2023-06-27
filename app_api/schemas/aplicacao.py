@@ -36,7 +36,7 @@ def apresenta_aplicacoes(aplicacoes: List[Aplicacao]):
             "nome"      : aplicacao.nome,
             "descricao" : aplicacao.descricao,
             "sigla"     : aplicacao.sigla,
-            "status"    : aplicacao.status,
+            "status"    : aplicacao.status
         })
         
     return {"aplicacoes": result}

@@ -1,9 +1,13 @@
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
 from sqlalchemy import Column, String, Integer, DateTime, Float
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from typing import Union
 
 from model import Base
+from .app_tech import app_tech
 
 class Tecnologia(Base):
     __tablename__ = 'tecnologia'
@@ -14,6 +18,8 @@ class Tecnologia(Base):
     tipo_tecnologia = Column(String(80))
     ultima_versao   = Column(String(50))
     data_insercao   = Column(DateTime, default=datetime.now())
+
+    aplicacoes = relationship("Aplicacao", secondary="app_tech", back_populates="tecnologias")
 
     def __init__(self,  descricao:str, 
                         status:str, 
