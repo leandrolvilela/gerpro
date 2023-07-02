@@ -79,8 +79,10 @@ def get_aplicacoes():
     Retorna uma representação da listagem de aplicações.
     """
     logger.debug(f"Coletando aplicações ")
+
     # criando conexão com a base
     session = Session()
+    
     # fazendo a busca
     aplicacoes = session.query(Aplicacao).all()
     

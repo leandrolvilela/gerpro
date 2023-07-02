@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Gestão de Aplicações</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
+
+<body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="#">Gestão de Aplicações</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a href="#">Home</a></li>
+                        <li class="active"><a href="aplicacao.html">Aplicações</a></li>
+                        <li><a href="tecnologia.html">Tecnologias</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluit" style="margin: 100px;">
+        <form class="form-inline">
+            <!-- <div class="mb-3"> -->
+                <label for="filterNome" class="form-label mb-2 mr-sm-2">Nome</label>
+                <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Digite o nome da aplicação">
+            <!-- </div> -->
+
+            <!-- <div class="mb-3"> -->
+                <label for="filterSigla" class="form-label mb-2 mr-sm-2">Sigla</label>
+                <input type="text" class="form-control input-mini mb-2 mr-sm-2">
+            <!-- </div> -->
+
+            <!-- <div class="mb-3"> -->
+                <label for="filterDescricao" class="form-label mb-10 mr-sm-10">Descrição</label>
+                <input type="text" class="form-control mb-2 mr-sm-2">
+            <!-- </div> -->
+
+            <!-- <div class="mb-3"> -->
+                <label for="filterStatus" class="form-label mb-10 mr-sm-10">Status</label>
+                <select class="form-select mb-2 mr-sm-2">
+                    <option value="">Todos</option>
+                    <option value="AA">Aguardando aprovação</option>
+                    <option value="A">Ativo</option>
+                    <option value="I">Inativo</option>
+                </select>
+            <!-- </div> -->
+
+        </form>
+    </div>
+
+    <div class="container">
+
+        <div class="col-md-6">
+
+            <div style="margin: 50px;" class="col-md-6">
+
+                <fieldset>
+
+                    <legend>Filtros</legend>
+
+                    <form class="form-inline" id="filterForm">
+
+                        <div class="controls controls-row"> 
+
+                            <div class="col-md-6">
+                                <label for="filterNome" class="span" style="margin: 15px;">Nome:</label>
+                                <input type="text" class="span4" id="filterNome" placeholder="Digite o nome da aplicação" style="margin: 10px;">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="filterSigla" class="span" style="margin: 15px;">Sigla:</label>
+                                <input type="text" class="span1" id="filterSigla" placeholder="Digite a sigla" style="margin: 10px;">
+                            </div>
+
+                        </div>
+
+                        <div class="controls controls-row">
+
+                            <div class="col-md-6">
+                                <label for="filterDescricao" class="span" style="margin: 15px;">Descrição:</label>
+                                <input type="text" class="span4" id="filterDescricao" placeholder="Digite a descrição" style="margin: 10px;">
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="filterStatus" class="span" style="margin: 15px;">Status:</label>
+                                <select class="span3" id="filterStatus" style="margin: 10px;">
+                                    <option value="">Todos</option>
+                                    <option value="AA">Aguardando aprovação</option>
+                                    <option value="A">Ativo</option>
+                                    <option value="I">Inativo</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <!-- Button to trigger modal -->
+                        <a href="#myModal" role="button" class="btn" data-toggle="modal" style="margin-left: 10px; margin-top: 10px;">Nova Aplicação</a>
+
+                        <button type="submit" class="btn btn-primary mr-2" style="margin-left: 600px;">Filtrar</button>
+
+                    </form>
+                </fieldset>
+            </div>
+
+
+
+            <!-- Modal -->
+            <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">Modal header</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Um corpo fino …</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Fechar</button>
+                    <button class="btn btn-primary">Salvar mudanças</button>
+                </div>
+            </div>
+
+
+            <div class="row">
+
+                <div class="span12">
+                    <legend>Lista de aplicações</legend>
+                    <table class="table" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nome aplicação</th>
+                                <th>Sigla</th>
+                                <th>Descrição</th>
+                                <th>Status</th>
+                                <th colspan="2" style="text-align: center;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <script src="js/scripts.js"></script>
+            <script src="http://code.jquery.com/jquery-latest.js"></script>
+            <script src="js/bootstrap.min.js"></script>
+
+            <script>
+                document.getElementById('filterForm').addEventListener('submit', function (event) {
+                    event.preventDefault(); // Impede o comportamento padrão do formulário de recarregar a página
+
+                    // Recupere os valores dos campos do formulário
+                    var nome = document.getElementById('filterNome').value;
+                    var sigla = document.getElementById('filterSigla').value;
+                    var descricao = document.getElementById('filterDescricao').value;
+                    var status = document.getElementById('filterStatus').value;
+
+                    // Filtrar os registros e atualizar a tabela
+                    filtrarRegistros(nome, sigla, descricao, status);
+                });
+            </script>
+</body>
+
+</html>

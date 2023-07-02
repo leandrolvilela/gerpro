@@ -5,19 +5,20 @@ from model.aplicacao import Aplicacao
 class AplicacaoSchema(BaseModel):
     """ Define uma nova aplicação a ser inserida ou atualizada deve ser representada (aplicacao.py)
     """
-    nome: str = "SAP Success Factor"
-    sigla: Optional[str] = "SSF"
-    descricao: str = "O SAP SuccessFactors é uma solução completa para um RH estratégico e eficaz."
-    status: str = "AA"
+    id:         int = 0
+    nome:       str = "SAP Success Factor"
+    sigla:      Optional[str] = "SSF"
+    descricao:  str = "O SAP SuccessFactors é uma solução completa para um RH estratégico e eficaz."
+    status:     str = "AA"
 
 class AplicacaoViewSchema(BaseModel):
     """ Define como uma aplicação será retornada (aplicacao.py)
     """
-    id: int=1
-    nome: str="SAP Success Factor"
-    sigla: str="SSF"
-    descricao: str="SAP Success Factor"
-    status: str="AA"
+    id:         int = 1
+    nome:       str = "SAP Success Factor"
+    sigla:      str = "SSF"
+    descricao:  str = "SAP Success Factor"
+    status:     str = "AA"
 
 class ListagemAplicacoesSchema(BaseModel):
     """ Define como uma listagem de aplicações será retornada (aplicacao.py)
@@ -33,9 +34,10 @@ def apresenta_aplicacoes(aplicacoes: List[Aplicacao]):
     result = []
     for aplicacao in aplicacoes:
         result.append({
+            "id"        : aplicacao.id,
             "nome"      : aplicacao.nome,
-            "descricao" : aplicacao.descricao,
             "sigla"     : aplicacao.sigla,
+            "descricao" : aplicacao.descricao,
             "status"    : aplicacao.status
         })
         
@@ -45,13 +47,14 @@ class AplicacaoDelSchema(BaseModel):
     """ Define como deve ser a estrutura de dado retornado após uma requisição de remoção (aplicacao.py)
     """
     mesage: str
-    nome: str
+    nome:   str
 
 def apresenta_aplicacao(aplicacao: Aplicacao):
     """ Retorna uma representação da aplicacao seguindo o schema definido em
         AplicacaoViewSchema.
     """
     return {
+        "id"        : aplicacao.id,
         "nome"      : aplicacao.nome,
         "descricao" : aplicacao.descricao,
         "sigla"     : aplicacao.sigla,
@@ -61,34 +64,34 @@ def apresenta_aplicacao(aplicacao: Aplicacao):
 class AplicacaoViewSchema(BaseModel):
     """ Define como uma aplicação será retornada (aplicacao.py)
     """
-    id: int=1
-    nome: str="SAP Success Factor"
-    sigla: str="SSF"
-    descricao: str="SAP Success Factor"
-    status: str="AA"
+    id:         int = 1
+    nome:       str = "SAP Success Factor"
+    sigla:      str = "SSF"
+    descricao:  str = "SAP Success Factor"
+    status:     str = "AA"
 
 class AplicacaoBuscaSchema(BaseModel):
     """ Define como deve ser a estrutura que representa a busca. Que será
         feita apenas com base no id, nome e sigla da aplicação, seguindo a mesma ordem de prioridade para o filtro.
     """
-    id: int = 0
-    nome: str = ""
-    sigla: str = ""
+    id:     int = 0
+    nome:   str = ""
+    sigla:  str = ""
 
 
 class AplicacaoUpdSchema(BaseModel):
     """ Define como deve ser a estrutura do dado retornado após uma requisição
         de atualização.
     """
-    id: int = 1
-    nome: Optional[str] = "SAP Success Factor"
-    sigla: Optional[str] = "SSF"
-    descricao: Optional[str] = "SAP Success Factor"
-    status: Optional[str] = "AA"
+    id:         int = 1
+    nome:       Optional[str] = "SAP Success Factor"
+    sigla:      Optional[str] = "SSF"
+    descricao:  Optional[str] = "SAP Success Factor"
+    status:     Optional[str] = "AA"
 
 class AplicacaoDltSchema(BaseModel):
     """ Define como deve ser a estrutura do dado retornado após uma requisição
         de atualização.
     """
-    id: int = 0
-    nome: str = ""
+    id:     int = 0
+    nome:   str = ""

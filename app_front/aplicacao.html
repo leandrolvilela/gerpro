@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap 101 Template</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
+
+<body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="#">Gestão de Aplicações</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a href="index.html">Home</a></li>
+                        <li class="active"><a href="#">Aplicações</a></li>
+                        <li><a href="tecnologia.html">Tecnologias</a></li>
+                    </ul>                    
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Main hero unit for a primary marketing message or call to action -->
+        <div class="hero-unit">
+            <h1>Aplicações!</h1>
+            <p>Essa aplicação tem como objetico controlar as aplicações que estão no escopo do AMS e 
+                gerenciar a obsolecencias dos mesmos.
+            </p>
+            <p><a class="btn btn-primary btn-large" href="lista_aplicacao.html">Todas as aplicações</a></p>
+        </div>
+
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="span12">
+                <form>
+                    <fieldset>
+                      <legend>Cadastro de aplicações</legend>
+                      <label>Nome da aplicação</label>
+                      <input type="text" placeholder="Digite nome da aplicação...">
+                           
+                      <label>Sigla</label>
+                      <input type="text" class="input-small" placeholder="Sigla...">
+
+                      <label>Descrição</label>
+                      <input type="text" placeholder="Descrição da aplicação...">
+
+                      <label class="checkbox">
+                        <input type="checkbox" checked> Ativo
+                      </label>
+                      
+                      <button type="submit" class="btn"><i class="icon-ok"></i> Gravar</button>
+                    </fieldset>
+                  </form>
+            </div>
+            
+        </div>
+
+        <hr>
+
+        <footer>
+            <p>&copy; Company 2012</p>
+        </footer>
+
+    </div> <!-- /container -->
+
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

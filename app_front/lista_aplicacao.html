@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Gestão de Aplicações</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
+
+<body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="#">Gestão de Aplicações</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a href="#">Home</a></li>
+                        <li class="active"><a href="aplicacao.html">Aplicações</a></li>
+                        <li><a href="tecnologia.html">Tecnologias</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="col-md-6">
+
+            <div style="margin: 50px;" class="col-md-6">
+
+                <fieldset>
+
+                    <legend>Pesquisa</legend>
+
+                    <form class="form-inline" id="filterForm">
+
+                        <div class="controls controls-row"> 
+                            
+                            <div class="col-md-6">
+                                <label for="filterNome" class="span1" style="margin: 15px;">Nome:</label>
+                                <input type="text" class="span4" id="filterNome" placeholder="Digite o nome da aplicação" style="margin: 10px;">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="filterSigla" class="span1" style="margin: 15px;">Sigla:</label>
+                                <input type="text" class="span1" id="filterSigla" placeholder="Digite a sigla" style="margin: 10px;">
+                            </div>
+
+                        </div>
+
+
+                        <div class="controls controls-row">
+
+                            <div class="col-md-6">
+                                <label for="filterDescricao" class="span1" style="margin: 15px;">Descrição:</label>
+                                <input type="text" class="span4" id="filterDescricao" placeholder="Digite a descrição" style="margin: 10px;">
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="filterStatus" class="span1" style="margin: 15px;">Status:</label>
+                                <select class="span3" id="filterStatus" style="margin: 10px;">
+                                    <option value="">Todos</option>
+                                    <option value="AA">Aguardando aprovação</option>
+                                    <option value="A">Ativo</option>
+                                    <option value="I">Inativo</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <!-- Button to trigger modal -->
+                        <a href="#myModal" role="button" class="btn" data-toggle="modal" onclick="limparFormulario()"
+                           style="margin-left: 10px; margin-top: 10px;">Nova Aplicação</a>
+
+                        <button type="submit" class="btn btn-primary mr-2" style="margin-left: 600px;">Filtrar</button>
+
+                    </form>
+                </fieldset>
+            </div>
+
+            <!-- Modal Cadastro de nova aplicação -->
+            <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">Cadastro de Aplicações</h3>
+                </div>
+
+                <form id="cadastroApp">
+
+                    <div class="modal-body">
+
+                        <input type="hidden" id="cadAppId" value="">
+            
+                        <label>Nome da aplicação</label>
+                        <input type="text" id="cadAppNome" placeholder="Digite o nome da aplicação">
+            
+                        <label>Sigla</label>
+                        <input type="text" id="cadAppSigla" placeholder="Digite a sigla da aplicação">
+            
+                        <label>Descrição</label>
+                        <input type="text" id="cadAppDescricao" placeholder="Digite a descrição da aplicação">
+            
+                        <label for="filterStatus">Status:</label>
+                        <select id="cadAppStatus">
+                            <option value="AA">Aguardando aprovação</option>
+                            <option value="A">Ativo</option>
+                            <option value="I">Inativo</option>
+                        </select>
+                        
+                    </div>
+            
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">Fechar</button>
+                        <button class="btn btn-primary" type="submit">Salvar</button>
+                    </div>
+                
+                </form>
+            </div>
+
+
+            <div class="row">
+
+                <div class="span12">
+                    <legend>Lista de aplicações</legend>
+                    <table class="table table-striped table-hover" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nome aplicação</th>
+                                <th>Sigla</th>
+                                <th>Descrição</th>
+                                <th>Status</th>
+                                <th colspan="2" style="text-align: center;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <script src="js/scripts.js"></script>
+            <script src="http://code.jquery.com/jquery-latest.js"></script>
+            <script src="js/bootstrap.min.js"></script>
+
+            <script>
+                document.getElementById('filterForm').addEventListener('submit', function (event) {
+                    event.preventDefault(); // Impede o comportamento padrão do formulário de recarregar a página
+
+                    // Recupere os valores dos campos do formulário
+                    var nome        = document.getElementById('filterNome').value;
+                    var sigla       = document.getElementById('filterSigla').value;
+                    var descricao   = document.getElementById('filterDescricao').value;
+                    var status      = document.getElementById('filterStatus').value;
+
+                    // Filtrar os registros e atualizar a tabela
+                    filtrarRegistros(nome, sigla, descricao, status);
+                });
+
+                document.getElementById('cadastroApp').addEventListener('submit', function (event) {
+                    event.preventDefault(); // Impede o comportamento padrão do formulário de recarregar a página
+
+                    // Recupere os valores dos campos do formulário
+                    var frmId       = document.getElementById('cadAppId').value;
+                    var nome        = document.getElementById('cadAppNome').value;
+                    var sigla       = document.getElementById('cadAppSigla').value;
+                    var descricao   = document.getElementById('cadAppDescricao').value;
+                    var status      = document.getElementById('cadAppStatus').value;
+
+                    if (nome === '') {
+                        alert('Digite o nome da aplicação');
+                    } else {
+                        if (sigla == '') {
+                            alert('Digite a sigla da aplicação')
+                        } else{
+                            if (frmId == 0){
+                                // cadastra os registros e atualizar a tabela
+                                cadastrarApp(nome, sigla, descricao, status);                              
+                            } else{
+                                
+                                editItem(frmId, nome, sigla, descricao, status);
+
+                            }
+                        }
+                    }
+
+                });
+
+            </script>
+</body>
+
+</html>
