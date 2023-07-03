@@ -168,8 +168,6 @@ const confirmDelete = (id) => {
 
 function editItem(appId, appNome, appSigla, appDescricao, appStatus){
 
-  console.log(appNome);
-
   data = {
     id:         appId,
     nome:       appNome,
@@ -177,8 +175,6 @@ function editItem(appId, appNome, appSigla, appDescricao, appStatus){
     descricao:  appDescricao,
     status:     appStatus
   };
-
-  console.log(data);
 
   let url = 'http://127.0.0.1:5000/aplicacao';
   fetch(url, {
@@ -188,15 +184,12 @@ function editItem(appId, appNome, appSigla, appDescricao, appStatus){
     },
     body: JSON.stringify(data)
   })
-    .then((response) => response.json())
-    .then((data)=>{
-      const id        = data.id;
-      const nome      = data.nome;
-      const sigla     = data.sigla;
-      const descricao = data.descricao;
-      const status    = data.status;
-      insertList(id, nome, sigla, descricao, status);
+    .then((response) => {
+      console.log('Retornou: ', response)
+      limpaTabela()
       limparFormulario()
+      getList()
+      $('#myModal').modal('hide');
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -205,7 +198,7 @@ function editItem(appId, appNome, appSigla, appDescricao, appStatus){
 
 function preencheFormulario(id){
 
-  /** RECUPERA VALORES DA APLICAÇÃO QUE ESTÁ NA TABELA */
+  /** RECUPERA VALORES DA APLICAÇÃO QUE ESTÁ NA TABELA QUE O USUÁRIO CLICOU */
 
   // Recupera nome do app da tabela
   var idNome  = 'row_'+id+"_1";
@@ -271,27 +264,41 @@ function filtrarRegistros(nome, sigla, descricao, status) {
     url = 'http://127.0.0.1:5000/aplicacoes';
   }
 
+  // fecharMensagemErro();
+
   fetch(url, {
-    method: 'get'
+    method: 'GET'
   })
     .then((response) => response.json())
     .then((data) => {
 
-      limpaTabela()
-
-      if (data && data.aplicacoes) {
-        data.aplicacoes.forEach(item => insertList(item.id, item.nome, item.sigla, item.descricao, item.status))
-      }
-      else if (data) {
-        insertList(data.id, data.nome, data.sigla, data.descricao, data.status);
+      limpaTabela();
+      fecharMensagemErro();
+      
+      if (data.message){
+        exibeErro(data.message)
+      } else { 
+        if (data && data.aplicacoes) {
+          data.aplicacoes.forEach(item => insertList(item.id, item.nome, item.sigla, item.descricao, item.status))
+        }
+        else if (data) {
+          insertList(data.id, data.nome, data.sigla, data.descricao, data.status);
+        }
       }
 
     })
     .catch((error) => {
-      console.error('Error:', error);
-
+      console.error('Error filtro:', error);
+      exibeErro(error.message)
     });
 
+}
+
+function exibeErro(msgErro){
+  const errorMessage = document.getElementById('error-message');
+  const errorText = document.getElementById('error-text');
+  errorText.textContent = msgErro;
+  errorMessage.style.display = 'block';
 }
 
 function limpaTabela(){
@@ -308,3 +315,9 @@ function limparFormulario() {
   document.getElementById("myModalLabel").textContent   = "Cadastro de Aplicação"
 }
 
+function fecharMensagemErro() {
+  const errorMessage = document.getElementById('error-message');
+  const errorText = document.getElementById('error-text');
+  errorText.textContent = '';
+  errorMessage.style.display = 'none';
+}

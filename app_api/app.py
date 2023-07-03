@@ -1,5 +1,5 @@
 from flask_openapi3 import OpenAPI, Info, Tag
-from flask import redirect
+from flask import redirect, request, jsonify
 from urllib.parse import unquote
 
 from sqlalchemy.exc import IntegrityError
@@ -174,7 +174,14 @@ def del_aplicacao(query: AplicacaoDltSchema):
 def upd_campo_modificados(campo, novo_valor):
     if novo_valor is not None and novo_valor != "" and campo != novo_valor:
         return novo_valor
+
     return campo  
+
+
+@app.before_request
+def before_request():
+    if request.content_type == 'application/json':
+        request.json_data = request.get_json()
 
 
 @app.put('/aplicacao', tags=[aplicacao_tag],
@@ -184,13 +191,15 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
     
     Retorna uma mensagem de configuração da remoção
     """
-    aplicacao_id        = query.id
-    aplicacao_nome      = unquote(unquote(query.nome))
-    aplicacao_sigla     = query.sigla
-    aplicacao_descricao = query.descricao
-    aplicacao_status    = query.status
+    query = request.json_data
 
-    # print(aplicacao_nome)
+    aplicacao_id        = query['id']
+    aplicacao_nome      = unquote(unquote(query['nome']))
+    aplicacao_sigla     = unquote(unquote(query['sigla']))
+    aplicacao_descricao = unquote(unquote(query['descricao']))
+    aplicacao_status    = unquote(unquote(query['status']))
+
+    print(aplicacao_nome)
     
     if not aplicacao_nome or aplicacao_nome == "":
         # Se não foi informado nenhum nome
@@ -218,6 +227,10 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
             db_aplicacao.sigla     = upd_campo_modificados(db_aplicacao.sigla, aplicacao_sigla)
             db_aplicacao.descricao = upd_campo_modificados(db_aplicacao.descricao, aplicacao_descricao)
             db_aplicacao.status    = upd_campo_modificados(db_aplicacao.status, aplicacao_status)
+
+
+            msg = f"Nome: {db_aplicacao.nome}, Sigla: {db_aplicacao.sigla}, Descrição: {db_aplicacao.descricao}"
+            print(msg)
 
             # Grava alteração
             session.add(db_aplicacao)

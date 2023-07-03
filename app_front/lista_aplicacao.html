@@ -20,8 +20,8 @@
                 <a class="brand" href="#">Gestão de Aplicações</a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li><a href="#">Home</a></li>
-                        <li class="active"><a href="aplicacao.html">Aplicações</a></li>
+                        <li><a href="index.html">Home</a></li>
+                        <li class="active"><a href="#">Aplicações</a></li>
                         <li><a href="tecnologia.html">Tecnologias</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
@@ -41,28 +41,23 @@
 
                     <form class="form-inline" id="filterForm">
 
-                        <div class="controls controls-row"> 
-                            
+                        <div class="controls controls-row">                             
                             <div class="col-md-6">
                                 <label for="filterNome" class="span1" style="margin: 15px;">Nome:</label>
                                 <input type="text" class="span4" id="filterNome" placeholder="Digite o nome da aplicação" style="margin: 10px;">
                             </div>
-
                             <div class="col-md-6">
                                 <label for="filterSigla" class="span1" style="margin: 15px;">Sigla:</label>
                                 <input type="text" class="span1" id="filterSigla" placeholder="Digite a sigla" style="margin: 10px;">
                             </div>
-
                         </div>
 
 
                         <div class="controls controls-row">
-
                             <div class="col-md-6">
                                 <label for="filterDescricao" class="span1" style="margin: 15px;">Descrição:</label>
                                 <input type="text" class="span4" id="filterDescricao" placeholder="Digite a descrição" style="margin: 10px;">
-                            </div>
-                            
+                            </div>                            
                             <div class="col-md-6">
                                 <label for="filterStatus" class="span1" style="margin: 15px;">Status:</label>
                                 <select class="span3" id="filterStatus" style="margin: 10px;">
@@ -72,7 +67,6 @@
                                     <option value="I">Inativo</option>
                                 </select>
                             </div>
-
                         </div>
 
                         <!-- Button to trigger modal -->
@@ -85,6 +79,18 @@
                 </fieldset>
             </div>
 
+
+            <div id="error-message" class="alert alert-danger alert-dismissible" role="alert" 
+                style="display: none;">
+            
+                <button type="button" class="close" data-dismiss="alert" aria-label="Fechar" 
+                        onclick="fecharMensagemErro()">
+                    <!-- <span aria-hidden="true">&times;</span> -->
+                </button>
+            
+                <span id="error-text"></span>
+            </div>     
+              
             <!-- Modal Cadastro de nova aplicação -->
             <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-header">
@@ -126,7 +132,6 @@
 
 
             <div class="row">
-
                 <div class="span12">
                     <legend>Lista de aplicações</legend>
                     <table class="table table-striped table-hover" id="myTable">
@@ -185,9 +190,9 @@
                                 // cadastra os registros e atualizar a tabela
                                 cadastrarApp(nome, sigla, descricao, status);                              
                             } else{
-                                
+                                // Edita cadastro da Aplicação
                                 editItem(frmId, nome, sigla, descricao, status);
-
+                                
                             }
                         }
                     }
