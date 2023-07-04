@@ -33,6 +33,7 @@
 
         <div class="col-md-6">
 
+            <!-- Construção do formuário de filtro de Aplicações -->
             <div style="margin: 50px;" class="col-md-6">
 
                 <fieldset>
@@ -79,7 +80,7 @@
                 </fieldset>
             </div>
 
-
+            <!-- Mensagem de erro -->
             <div id="error-message" class="alert alert-danger alert-dismissible" role="alert" 
                 style="display: none;">
             
@@ -130,7 +131,7 @@
                 </form>
             </div>
 
-
+            <!-- Tabela com a lista de aplicações -->
             <div class="row">
                 <div class="span12">
                     <legend>Lista de aplicações</legend>
@@ -151,6 +152,26 @@
                 </div>
             </div>
 
+            <!-- Modal de confirmação de exclusão-->
+            <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Confirmação de Exclusão</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                    <p id="confirmMessage"></p>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btnConfirmDelete" class="btn btn-danger" onclick="deleteItemConfirmed()">Confirmar</button>
+                    </div>
+                </div>
+                </div>
+            </div>
 
             <script src="js/scripts.js"></script>
             <script src="http://code.jquery.com/jquery-latest.js"></script>

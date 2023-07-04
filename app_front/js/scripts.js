@@ -157,13 +157,43 @@ const insertList = (id, nome, sigla, descricao, status) => {
 
 // Função para confirmar a exclusão
 const confirmDelete = (id) => {
-  var appNome = 'row_'+id+"_1";
+
+  /* 
+    O id da coluna row_id_0 = ID 
+    O id da coluna row_id_1 = NOME DA APLICAÇÃO (*)
+    O id da coluna row_id_2 = SIGLA 
+    O id da coluna row_id_3 = DESCRIÇÃO 
+    O id da coluna row_id_4 = STATUS 
+    O id da coluna row_id_5 = BOTÃO DE EDIÇÃO 
+    O id da coluna row_id_6 = BOTÃO DE EXCLUSÃO 
+  */
+
+  // Recupera o Nome da Aplicação (*)
+  var appNome = 'row_' + id + "_1";
+
+  // Recupera o nome da aplicação que está na tabela
   var celValue = document.getElementById(appNome).textContent;
-  // var celValue = cel.textContent
-  let msg = "Tem certeza que deseja excluir o app "+ id +" - "+celValue+" ?";
-  if (confirm(msg)) {
-      deleteItem(id);
-  }
+
+  // Configura mensagem que irá exibir na tela de confirmação de exclusão
+  let confirmMessage = document.getElementById('confirmMessage');
+  confirmMessage.textContent = `Tem certeza que deseja excluir o app ${id} - ${celValue} ?`;
+  
+  // adiciona a função no botão com o ID a ser excluido
+  let idBtn  = document.getElementById('btnConfirmDelete');
+  let funDel = 'deleteItemConfirmed('+id+')';
+  idBtn.setAttribute('onclick', funDel);
+
+  // Exibe tela de confirmação
+  $('#confirmModal').modal('show');
+
+}
+
+// Função para executar a exclusão após a confirmação
+const deleteItemConfirmed = (id) => {
+  // Realize a exclusão do item
+  deleteItem(id)
+  // Feche o modal de confirmação
+  $('#confirmModal').modal('hide');
 }
 
 function editItem(appId, appNome, appSigla, appDescricao, appStatus){
@@ -274,7 +304,7 @@ function filtrarRegistros(nome, sigla, descricao, status) {
 
       limpaTabela();
       fecharMensagemErro();
-      
+
       if (data.message){
         exibeErro(data.message)
       } else { 
