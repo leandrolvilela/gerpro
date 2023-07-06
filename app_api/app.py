@@ -4,6 +4,7 @@ from urllib.parse import unquote
 
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import lazyload
+from sqlalchemy import func
 
 from model import Session, Aplicacao, Tecnologia
 from logger import logger
@@ -37,7 +38,7 @@ def add_aplicacao(form:AplicacaoSchema):
     
     Retorna uma representação das aplicações
     """
-
+    print(f"PARAMETRO SIGLA: {form.sigla}")
     aplicacao = Aplicacao(
         nome      = form.nome,
         sigla     = form.sigla,
@@ -93,29 +94,90 @@ def get_aplicacoes():
         logger.debug(f"Aplicações econtradas {len(aplicacoes)}")
         # retorna a representação de produto
         return apresenta_aplicacoes(aplicacoes), 200
+
+
+
+@app.post('/aplicacao_filtros', tags=[aplicacao_tag],
+          responses={"200":AplicacaoViewSchema, "409": ErrorSchema, "400": ErrorSchema})
+def aplicacao_filtro(form:AplicacaoSchema):
+    """Método para filtrar informações de aplicações na base de dados
     
+    Retorna uma representação das aplicações filtradas na base de dados
+    """
+   
+    id = form.id
+    if id == 0:
+        id = None
+
+    aplicacao = Aplicacao(
+        nome      = form.nome,
+        sigla     = form.sigla,
+        status    = form.status,
+        descricao = form.descricao
+    )
+
+    logger.debug("Coletando aplicações com filtros")
+    try:
+        # Criando conexao com a base de dados
+        session = Session()
+
+        # Montando a query inicial
+        query = session.query(Aplicacao)
+
+        # Verificando os filtros e adicionando as cláusulas apropriadas
+        if id is not None:
+            query = query.filter(Aplicacao.id == id)
+        if aplicacao.nome:
+            query = query.filter(func.lower(Aplicacao.nome).like(f"%{aplicacao.nome.lower()}%"))
+        if aplicacao.sigla:
+            query = query.filter(func.lower(Aplicacao.sigla).like(f"%{aplicacao.sigla.lower()}%"))
+        if aplicacao.descricao:
+            query = query.filter(func.lower(Aplicacao.descricao).like(f"%{aplicacao.descricao.lower()}%"))
+        if aplicacao.status:
+            query = query.filter(func.lower(Aplicacao.status) == aplicacao.status.lower())
+
+        # Executando a consulta
+        aplicacoes = query.all()
+
+        if not aplicacoes:
+            # Se nenhuma aplicação foi encontrada
+            return {"aplicacoes": []}, 200
+        else:
+            logger.debug(f"Foram encontradas {len(aplicacoes)} aplicações com filtros.")
+            # Retorna a representação das aplicações encontradas
+            return apresenta_aplicacoes(aplicacoes), 200
+        
+    except IntegrityError as e:
+        logger.debug(f"Erro: {repr(e)}")
+
+    except Exception as e:
+        logger.debug(f"Erro: {repr(e)}")
+
+
 
 @app.get('/aplicacao', tags=[aplicacao_tag],
          responses={"200":AplicacaoSchema, "404": ErrorSchema})
 def get_aplicacao(query: AplicacaoBuscaSchema):
-    """ Faz a busca por uma Aplicação a partir do id do produto
+    """ Faz a busca por uma Aplicação a partir do id, nome e sigla do produto
+    
         Retorna uma representação das aplicações
     """ 
-    aplicacao_id = query.id
-    aplicacao_nome = unquote(unquote(query.nome))
+    aplicacao_id    = query.id
+    aplicacao_nome  = unquote(unquote(query.nome))
     aplicacao_sigla = unquote(unquote(query.sigla))
+
     logger.debug(f"Coletando dados sobre a aplicação #{aplicacao_id}")
+
     # criando conexão com a base
     session = Session()
 
     # Fazendo a busca
     if aplicacao_id:
         aplicacao = session.query(Aplicacao).filter(Aplicacao.id == aplicacao_id).first()
-    else:
-        if aplicacao_nome:
-            aplicacao = session.query(Aplicacao).filter(Aplicacao.nome == aplicacao_nome).first()
-        else:
-            aplicacao = session.query(Aplicacao).filter(Aplicacao.sigla == aplicacao_sigla).first()
+    if aplicacao_nome:
+        aplicacao = session.query(Aplicacao).filter(Aplicacao.nome == aplicacao_nome).first()
+    if aplicacao_sigla:
+        aplicacao = session.query(Aplicacao).filter(Aplicacao.sigla == aplicacao_sigla).first()
 
     if not aplicacao:
         # Se a aplicação não foi encontrado
@@ -199,7 +261,7 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
     aplicacao_descricao = unquote(unquote(query['descricao']))
     aplicacao_status    = unquote(unquote(query['status']))
 
-    print(aplicacao_nome)
+    # print(aplicacao_nome)
     
     if not aplicacao_nome or aplicacao_nome == "":
         # Se não foi informado nenhum nome
@@ -230,7 +292,7 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
 
 
             msg = f"Nome: {db_aplicacao.nome}, Sigla: {db_aplicacao.sigla}, Descrição: {db_aplicacao.descricao}"
-            print(msg)
+            # print(msg)
 
             # Grava alteração
             session.add(db_aplicacao)

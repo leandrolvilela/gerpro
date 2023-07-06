@@ -190,10 +190,13 @@ const confirmDelete = (id) => {
 
 // Função para executar a exclusão após a confirmação
 const deleteItemConfirmed = (id) => {
+
   // Realize a exclusão do item
   deleteItem(id)
+  
   // Feche o modal de confirmação
   $('#confirmModal').modal('hide');
+
 }
 
 function editItem(appId, appNome, appSigla, appDescricao, appStatus){
@@ -205,6 +208,9 @@ function editItem(appId, appNome, appSigla, appDescricao, appStatus){
     descricao:  appDescricao,
     status:     appStatus
   };
+
+  console.log('JSON: ', JSON.stringify(data));
+  console.log('Data:', data)
 
   let url = 'http://127.0.0.1:5000/aplicacao';
   fetch(url, {

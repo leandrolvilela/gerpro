@@ -22,7 +22,7 @@
                     <ul class="nav">
                         <li><a href="index.html">Home</a></li>
                         <li class="active"><a href="#">Aplicações</a></li>
-                        <li><a href="tecnologia.html">Tecnologias</a></li>
+                        <li><a href="#">Tecnologias</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -83,15 +83,15 @@
             <!-- Mensagem de erro -->
             <div id="error-message" class="alert alert-danger alert-dismissible" role="alert" 
                 style="display: none;">
-            
+
                 <button type="button" class="close" data-dismiss="alert" aria-label="Fechar" 
                         onclick="fecharMensagemErro()">
                     <!-- <span aria-hidden="true">&times;</span> -->
                 </button>
-            
+                
                 <span id="error-text"></span>
             </div>     
-              
+            
             <!-- Modal Cadastro de nova aplicação -->
             <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-header">
@@ -153,23 +153,27 @@
             </div>
 
             <!-- Modal de confirmação de exclusão-->
-            <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+            <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="confirmModalLabel">Confirmação de Exclusão</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmModalLabel">Confirmação de Exclusão</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <p id="confirmMessage"></p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="button" id="btnConfirmDelete" class="btn btn-danger"
+                                onclick="deleteItemConfirmed()">Confirmar</button>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                    <p id="confirmMessage"></p>
-                    </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" id="btnConfirmDelete" class="btn btn-danger" onclick="deleteItemConfirmed()">Confirmar</button>
-                    </div>
-                </div>
                 </div>
             </div>
 
@@ -178,9 +182,13 @@
             <script src="js/bootstrap.min.js"></script>
 
             <script>
+
+                //****************************************************************//
+                //      Função para cadastrar consultar aplicação (filtro)        //
+                //****************************************************************//
                 document.getElementById('filterForm').addEventListener('submit', function (event) {
                     event.preventDefault(); // Impede o comportamento padrão do formulário de recarregar a página
-
+                    
                     // Recupere os valores dos campos do formulário
                     var nome        = document.getElementById('filterNome').value;
                     var sigla       = document.getElementById('filterSigla').value;
@@ -190,11 +198,14 @@
                     // Filtrar os registros e atualizar a tabela
                     filtrarRegistros(nome, sigla, descricao, status);
                 });
-
+                
+                //****************************************************************//
+                // Função para cadastrar nova aplicação ou alteração de aplicação //
+                //****************************************************************//
                 document.getElementById('cadastroApp').addEventListener('submit', function (event) {
                     event.preventDefault(); // Impede o comportamento padrão do formulário de recarregar a página
-
-                    // Recupere os valores dos campos do formulário
+                    
+                    // Recupere os valores dos campos do formulário de cadastro
                     var frmId       = document.getElementById('cadAppId').value;
                     var nome        = document.getElementById('cadAppNome').value;
                     var sigla       = document.getElementById('cadAppSigla').value;
@@ -213,7 +224,6 @@
                             } else{
                                 // Edita cadastro da Aplicação
                                 editItem(frmId, nome, sigla, descricao, status);
-                                
                             }
                         }
                     }

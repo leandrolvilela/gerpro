@@ -2,14 +2,16 @@ from pydantic import BaseModel
 from typing import Optional, List
 from model.aplicacao import Aplicacao
 
+
 class AplicacaoSchema(BaseModel):
     """ Define uma nova aplicação a ser inserida ou atualizada deve ser representada (aplicacao.py)
     """
     id:         int = 0
     nome:       str = "SAP Success Factor"
-    sigla:      Optional[str] = "SSF"
+    sigla:      str = "SSF"
     descricao:  str = "O SAP SuccessFactors é uma solução completa para um RH estratégico e eficaz."
     status:     str = "AA"
+
 
 class AplicacaoViewSchema(BaseModel):
     """ Define como uma aplicação será retornada (aplicacao.py)
@@ -74,9 +76,11 @@ class AplicacaoBuscaSchema(BaseModel):
     """ Define como deve ser a estrutura que representa a busca. Que será
         feita apenas com base no id, nome e sigla da aplicação, seguindo a mesma ordem de prioridade para o filtro.
     """
-    id:     int = 0
-    nome:   str = ""
-    sigla:  str = ""
+    id:         int = 0
+    nome:       str = ""
+    sigla:      str = ""
+    descricao:  str = ""
+    status:     str = ""
 
 
 class AplicacaoUpdSchema(BaseModel):
