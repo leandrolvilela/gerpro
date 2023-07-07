@@ -1,14 +1,4 @@
-[2023-07-05 21:58:11,511] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
-[2023-07-05 21:58:13,201] ERROR log_exception() L1449 Exception on /aplicacao_filtros [POST] - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py L1449
-Traceback (most recent call last):
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
-    self.dialect.do_execute(
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
-    cursor.execute(statement, parameters)
-sqlite3.ProgrammingError: Error binding parameter 1: type 'builtin_function_or_method' is not supported
-
-The above exception was the direct cause of the following exception:
-
+[2023-07-05 22:28:19,839] ERROR log_exception() L1449 Exception on /aplicacao_filtros [POST] - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py L1449
 Traceback (most recent call last):
   File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 2073, in wsgi_app
     response = self.full_dispatch_request()
@@ -31,46 +21,13 @@ Traceback (most recent call last):
   File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_openapi3/do_wrapper.py", line 135, in _do_wrapper
     response = func(**request_kwargs)
                ^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py", line 138, in aplicacao_filtro
-    aplicacoes = query.all()
-                 ^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/orm/query.py", line 2772, in all
-    return self._iter().all()
-           ^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/orm/query.py", line 2907, in _iter
-    result = self.session.execute(
-             ^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1712, in execute
-    result = conn._execute_20(statement, params or {}, execution_options)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_20
-    return meth(self, args_10style, kwargs_10style, execution_options)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 333, in _execute_on_connection
-    return connection._execute_clauseelement(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1572, in _execute_clauseelement
-    ret = self._execute_context(
-          ^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1943, in _execute_context
-    self._handle_dbapi_exception(
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2124, in _handle_dbapi_exception
-    util.raise_(
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/util/compat.py", line 208, in raise_
-    raise exception
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
-    self.dialect.do_execute(
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
-    cursor.execute(statement, parameters)
-sqlalchemy.exc.ProgrammingError: (sqlite3.ProgrammingError) Error binding parameter 1: type 'builtin_function_or_method' is not supported
-[SQL: SELECT aplicacao.pk_aplicacao AS aplicacao_pk_aplicacao, aplicacao.nome AS aplicacao_nome, aplicacao.sigla AS aplicacao_sigla, aplicacao.descricao AS aplicacao_descricao, aplicacao.status AS aplicacao_status, aplicacao.data_insercao AS aplicacao_data_insercao 
-FROM aplicacao 
-WHERE aplicacao.pk_aplicacao = ? AND aplicacao.sigla = ? AND aplicacao.status = ?]
-[parameters: (<built-in function id>, 'SSF', '')]
-(Background on this error at: https://sqlalche.me/e/14/f405)
-[2023-07-05 21:58:13,207] INFO _log() L224  127.0.0.1 - - [05/Jul/2023 21:58:13] "[35m[1mPOST /aplicacao_filtros HTTP/1.1[0m" 500 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
-[2023-07-05 21:59:24,547] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
-[2023-07-05 21:59:26,615] ERROR log_exception() L1449 Exception on /aplicacao_filtros [POST] - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py L1449
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py", line 112, in aplicacao_filtro
+    aplicacao = Aplicacao(
+                ^^^^^^^^^^
+TypeError: __init__() got an unexpected keyword argument 'id'
+[2023-07-05 22:28:19,843] INFO _log() L224  127.0.0.1 - - [05/Jul/2023 22:28:19] "[35m[1mPOST /aplicacao_filtros HTTP/1.1[0m" 500 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-05 22:30:14,551] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-05 22:30:20,205] ERROR log_exception() L1449 Exception on /aplicacao_filtros [POST] - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py L1449
 Traceback (most recent call last):
   File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 2073, in wsgi_app
     response = self.full_dispatch_request()
@@ -93,7 +50,9 @@ Traceback (most recent call last):
   File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_openapi3/do_wrapper.py", line 135, in _do_wrapper
     response = func(**request_kwargs)
                ^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py", line 140, in aplicacao_filtro
-    if not aplicacoes:
-           ^^^^^^^^^^
-NameError: name 'aplicacoes' is not defined
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py", line 112, in aplicacao_filtro
+    aplicacao = Aplicacao(
+                ^^^^^^^^^^
+TypeError: __init__() got an unexpected keyword argument 'id'
+[2023-07-05 22:30:20,209] INFO _log() L224  127.0.0.1 - - [05/Jul/2023 22:30:20] "[35m[1mPOST /aplicacao_filtros HTTP/1.1[0m" 500 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-05 22:33:07,345] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 

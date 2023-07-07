@@ -85,26 +85,6 @@ const deleteItem = (item) => {
     });
 }
 
-/*
-  --------------------------------------------------------------------------------------
-  Função para adicionar um novo item com nome, quantidade e valor 
-  --------------------------------------------------------------------------------------
-*/
-const newItem = () => {
-  let inputProduct = document.getElementById("newInput").value;
-  let inputQuantity = document.getElementById("newQuantity").value;
-  let inputPrice = document.getElementById("newPrice").value;
-
-  if (inputProduct === '') {
-    alert("Escreva o nome de um item!");
-  } else if (isNaN(inputQuantity) || isNaN(inputPrice)) {
-    alert("Quantidade e valor precisam ser números!");
-  } else {
-    insertList(inputProduct, inputQuantity, inputPrice)
-    postItem(inputProduct, inputQuantity, inputPrice)
-    alert("Item adicionado!")
-  }
-}
 
 /*
   --------------------------------------------------------------------------------------
@@ -158,7 +138,7 @@ const insertList = (id, nome, sigla, descricao, status) => {
 // Função para confirmar a exclusão
 const confirmDelete = (id) => {
 
-  /* 
+  /* Como está configurado os IDs da tabela
     O id da coluna row_id_0 = ID 
     O id da coluna row_id_1 = NOME DA APLICAÇÃO (*)
     O id da coluna row_id_2 = SIGLA 
@@ -168,7 +148,7 @@ const confirmDelete = (id) => {
     O id da coluna row_id_6 = BOTÃO DE EXCLUSÃO 
   */
 
-  // Recupera o Nome da Aplicação (*)
+  // Recupera o Nome da Aplicação pelo ID (*)
   var appNome = 'row_' + id + "_1";
 
   // Recupera o nome da aplicação que está na tabela
@@ -209,8 +189,8 @@ function editItem(appId, appNome, appSigla, appDescricao, appStatus){
     status:     appStatus
   };
 
-  console.log('JSON: ', JSON.stringify(data));
-  console.log('Data:', data)
+  // console.log('JSON: ', JSON.stringify(data));
+  // console.log('Data:', data)
 
   let url = 'http://127.0.0.1:5000/aplicacao';
   fetch(url, {
@@ -277,57 +257,29 @@ function cadastrarApp(nome, sigla, descricao, status) {
   postApp(nome, sigla, descricao, status)
 }
 
+
+
 function filtrarRegistros(nome, sigla, descricao, status) {
 
-  let url, filtro = '';
+  const formData = new FormData();
+  formData.append('nome', nome);
+  formData.append('sigla', sigla);
+  formData.append('descricao', descricao);
+  formData.append('status', status);
 
-  if (nome) {
-    filtro = "nome=" + encodeURIComponent(nome) + '&';
-  }
-  if (sigla) {
-    filtro += "sigla=" + encodeURIComponent(sigla) + '&'
-  }
-  if (descricao) {
-    filtro += "descricao=" + encodeURIComponent(descricao) + '&'
-  }
-  if (status) {
-    filtro += "status=" + encodeURIComponent(status) + '&'
-  }
-
-  if (filtro) {
-    url = 'http://127.0.0.1:5000/aplicacao?' + filtro;
-  } else {
-    url = 'http://127.0.0.1:5000/aplicacoes';
-  }
-
-  // fecharMensagemErro();
-
+  let url = 'http://127.0.0.1:5000/aplicacao_filtros';
   fetch(url, {
-    method: 'GET'
+    method: 'POST',
+    body: formData
   })
     .then((response) => response.json())
-    .then((data) => {
-
-      limpaTabela();
-      fecharMensagemErro();
-
-      if (data.message){
-        exibeErro(data.message)
-      } else { 
-        if (data && data.aplicacoes) {
-          data.aplicacoes.forEach(item => insertList(item.id, item.nome, item.sigla, item.descricao, item.status))
-        }
-        else if (data) {
-          insertList(data.id, data.nome, data.sigla, data.descricao, data.status);
-        }
-      }
-
+    .then((data)=>{
+      limpaTabela()
+      data.aplicacoes.forEach(item => insertList(item.id, item.nome, item.sigla, item.descricao, item.status))
     })
     .catch((error) => {
-      console.error('Error filtro:', error);
-      exibeErro(error.message)
+      console.error('Error:', error);
     });
-
 }
 
 function exibeErro(msgErro){

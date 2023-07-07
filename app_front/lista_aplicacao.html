@@ -5,6 +5,8 @@
     <title>Gestão de Aplicações</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <link href="css/styles.css" rel="stylesheet" media="screen">
 </head>
 
 <body>
@@ -45,8 +47,8 @@
                         <div class="controls controls-row">                             
                             <div class="col-md-6">
                                 <label for="filterNome" class="span1" style="margin: 15px;">Nome:</label>
-                                <input type="text" class="span4" id="filterNome" placeholder="Digite o nome da aplicação" style="margin: 10px;">
-                            </div>
+                                <input type="text" class="span4 input-size-large" id="filterNome" placeholder="Digite o nome da aplicação" style="margin: 10px;">
+                            </div> 
                             <div class="col-md-6">
                                 <label for="filterSigla" class="span1" style="margin: 15px;">Sigla:</label>
                                 <input type="text" class="span1" id="filterSigla" placeholder="Digite a sigla" style="margin: 10px;">
@@ -106,17 +108,17 @@
                         <input type="hidden" id="cadAppId" value="">
             
                         <label>Nome da aplicação</label>
-                        <input type="text" id="cadAppNome" placeholder="Digite o nome da aplicação">
-            
+                        <input type="text" id="cadAppNome" class="input-size-large" placeholder="Digite o nome da aplicação" minlength="10" required>
+
                         <label>Sigla</label>
-                        <input type="text" id="cadAppSigla" placeholder="Digite a sigla da aplicação">
+                        <input type="text" id="cadAppSigla" class="input-size-small" placeholder="Digite a sigla da aplicação" minlength="3" required>
             
                         <label>Descrição</label>
-                        <input type="text" id="cadAppDescricao" placeholder="Digite a descrição da aplicação">
+                        <input type="text" id="cadAppDescricao" class="input-size-xlarge" placeholder="Digite a descrição da aplicação">
             
                         <label for="filterStatus">Status:</label>
-                        <select id="cadAppStatus">
-                            <option value="AA">Aguardando aprovação</option>
+                        <select id="cadAppStatus" class="input-size-medium">
+                            <option size="40"  value="AA">Aguardando aprovação</option>
                             <option value="A">Ativo</option>
                             <option value="I">Inativo</option>
                         </select>
@@ -195,7 +197,7 @@
                     var descricao   = document.getElementById('filterDescricao').value;
                     var status      = document.getElementById('filterStatus').value;
 
-                    // Filtrar os registros e atualizar a tabela
+                    // Filtrar os registros e atualizar a tabela - Lista de aplicações
                     filtrarRegistros(nome, sigla, descricao, status);
                 });
                 
@@ -211,22 +213,18 @@
                     var sigla       = document.getElementById('cadAppSigla').value;
                     var descricao   = document.getElementById('cadAppDescricao').value;
                     var status      = document.getElementById('cadAppStatus').value;
-
-                    if (nome === '') {
-                        alert('Digite o nome da aplicação');
-                    } else {
-                        if (sigla == '') {
-                            alert('Digite a sigla da aplicação')
-                        } else{
-                            if (frmId == 0){
-                                // cadastra os registros e atualizar a tabela
-                                cadastrarApp(nome, sigla, descricao, status);                              
-                            } else{
-                                // Edita cadastro da Aplicação
-                                editItem(frmId, nome, sigla, descricao, status);
-                            }
-                        }
+                    
+                    // frmID é de um campo oculto no formulário, se for 0 é para cadastrar uma nova aplicação
+                    // caso contrário, o usuário está alterando uma aplicação
+                    if (frmId == 0){
+                        // cadastra os registros e atualizar a tabela
+                        cadastrarApp(nome, sigla, descricao, status);                              
+                    } else{
+                        // Edita cadastro da Aplicação
+                        editItem(frmId, nome, sigla, descricao, status);
                     }
+
+                    document.getElementById("cadAppNome").focus();
 
                 });
 

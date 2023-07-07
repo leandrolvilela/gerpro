@@ -1,4 +1,21 @@
-body,
+.input-size-small {
+    width: 100px;
+}
+
+.input-size-medium {
+    width: 200px;
+}
+
+.input-size-large {
+    width: 300px;
+}
+
+.input-size-xlarge {
+    width: 500px;
+}
+
+
+/* body,
 ul,
 li {
     font-family: tahoma;
@@ -130,5 +147,4 @@ th:nth-child(1){
 
 tr:hover {
     background: rgb(200, 199, 199);
-}
-
+} */
