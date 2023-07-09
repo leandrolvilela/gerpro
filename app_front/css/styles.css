@@ -14,7 +14,52 @@
     width: 500px;
 }
 
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
 
+.pagination-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-item {
+    margin: 0 0px;
+}
+
+.pagination {
+    display: flex;
+    gap: 10px; /* Espaçamento entre os botões */
+    justify-content: center; /* Centralizar os botões horizontalmente */
+  }
+  
+  .pagination .page-item .page-link {
+    margin-bottom: 0px; /* Diminuir a margem inferior dos botões */
+  }
+  
+
+.page-link {
+    display: block;
+    /* padding: 5px 10px; */
+    background-color: #f8f9fa;
+    color: #333;
+    /* border: 1px solid #ddd; */
+    /* border-radius: 3px; */
+}
+
+.page-link:hover {
+    background-color: #e9ecef;
+}
+
+.page-item.active .page-link {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
 /* body,
 ul,
 li {

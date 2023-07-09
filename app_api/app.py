@@ -38,7 +38,6 @@ def add_aplicacao(form:AplicacaoSchema):
     
     Retorna uma representação das aplicações
     """
-    print(f"PARAMETRO SIGLA: {form.sigla}")
     aplicacao = Aplicacao(
         nome      = form.nome,
         sigla     = form.sigla,
@@ -61,17 +60,58 @@ def add_aplicacao(form:AplicacaoSchema):
 
     except IntegrityError as e:
         # como a duplicidade do nome é a provável razão do IntegrityError
-        error_msg = f"Aplicação de mesmo nome e/ou sigla já salvo na base ( {repr(e)} )"
+        error_msg = f"Aplicação de mesmo nome já salvo na base\n({repr(e)})"
         logger.warning(f"Erro ao adicionar a aplicação '{aplicacao.nome}', {error_msg}")
         return {"message": error_msg}, 409
 
     except Exception as e:
         # caso um erro fora do previsto
-        error_msg = f"Não foi possível salva novo item ( {repr(e)} )"
+        error_msg = f"Não foi possível salva novo item\n({repr(e)})"
         logger.warning(f"Erro ao adicionar a aplicação '{aplicacao.nome}', {error_msg}")
-        return {"mesage": error_msg}, 400
+        return {"message": error_msg}, 400
     
     
+# @app.get('/aplicacoes', tags=[aplicacao_tag],
+#          responses={"200": ListagemAplicacoesSchema, "404": ErrorSchema})
+# def get_aplicacoes():
+#     """Faz a busca por todas as Aplicações cadastradas por pagina e quantidade de linhas
+#     Parametro padrão: Pagina 1 com 4 linhas (/aplicacoes?page=1&per_page=4)
+
+#     Retorna uma representação da listagem de aplicações.
+#     """
+#     logger.debug(f"Coletando aplicações")
+
+#     paginacao = ListagemAplicacoesSchemaPG(
+#         page     = request.args.get('page',1 ,type=int),
+#         per_page = request.args.get('per_page',4 ,type=int)
+#     )
+#     page     = paginacao.page
+#     per_page = paginacao.per_page
+
+#     # criando conexão com a base
+#     session = Session()
+    
+#     # Calcula o índice inicial e final dos resultados com base na página e na quantidade de itens por página
+#     start_index = (page - 1) * per_page
+#     end_index   = start_index + per_page
+
+#     # Faz a busca com a paginação
+#     aplicacoes = session.query(Aplicacao).slice(start_index, end_index).all()
+    
+#     if not aplicacoes:
+#         # se não há aplicações cadastradas
+#         return {"aplicacoes": []}, 200
+#     else:
+#         logger.debug(f"Aplicações econtradas {len(aplicacoes)}")
+
+#         # Consulta o número total de itens no banco de dados
+#         total_aplicacoes = session.query(func.count(Aplicacao.id)).scalar()
+
+#         # Calcula o número total de páginas com base na quantidade total de itens
+#         total_pages = (total_aplicacoes + per_page - 1) // per_page
+
+#         # retorna a representação de produto
+#         return apresenta_aplicacoesPG(aplicacoes, page, per_page, total_pages), 200
 @app.get('/aplicacoes', tags=[aplicacao_tag],
          responses={"200": ListagemAplicacoesSchema, "404": ErrorSchema})
 def get_aplicacoes():
@@ -94,7 +134,6 @@ def get_aplicacoes():
         logger.debug(f"Aplicações econtradas {len(aplicacoes)}")
         # retorna a representação de produto
         return apresenta_aplicacoes(aplicacoes), 200
-
 
 
 @app.post('/aplicacao_filtros', tags=[aplicacao_tag],
@@ -175,9 +214,9 @@ def get_aplicacao(query: AplicacaoBuscaSchema):
     if aplicacao_id:
         aplicacao = session.query(Aplicacao).filter(Aplicacao.id == aplicacao_id).first()
     if aplicacao_nome:
-        aplicacao = session.query(Aplicacao).filter(Aplicacao.nome == aplicacao_nome).first()
+        aplicacao = session.query(Aplicacao).filter(func.lower(Aplicacao.nome) == aplicacao_nome.lower()).first()
     if aplicacao_sigla:
-        aplicacao = session.query(Aplicacao).filter(Aplicacao.sigla == aplicacao_sigla).first()
+        aplicacao = session.query(Aplicacao).filter(func.lower(Aplicacao.sigla) == aplicacao_sigla.lower()).first()
 
     if not aplicacao:
         # Se a aplicação não foi encontrado
@@ -281,7 +320,7 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
         
         if not db_aplicacao:
             # Se a aplicação não foi encontrado
-            error_msg = f"Aplicação não encontrada na base. Detalhe: {repr(e)}"
+            error_msg = f"Aplicação não encontrada na base.\nDetalhe: {repr(e)}"
             logger.warning(f"Erro ao buscar a aplicação '{aplicacao_id}', {error_msg}")
             return {"message": error_msg}, 404
         else:
@@ -290,8 +329,7 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
             db_aplicacao.descricao = upd_campo_modificados(db_aplicacao.descricao, aplicacao_descricao)
             db_aplicacao.status    = upd_campo_modificados(db_aplicacao.status, aplicacao_status)
 
-
-            msg = f"Nome: {db_aplicacao.nome}, Sigla: {db_aplicacao.sigla}, Descrição: {db_aplicacao.descricao}"
+            # msg = f"Nome: {db_aplicacao.nome}, Sigla: {db_aplicacao.sigla}, Descrição: {db_aplicacao.descricao}"
             # print(msg)
 
             # Grava alteração
@@ -302,12 +340,19 @@ def upd_aplicacao(query: AplicacaoUpdSchema):
 
             logger.debug(f"Editado Aplicação de nome: '{db_aplicacao.nome}'")
             return apresenta_aplicacao(db_aplicacao), 200
+        
+    except IntegrityError as e:
+        # Tratamento para erro de integridade do banco de dados
+        error_msg = f"Aplicação de mesmo nome já salvo na base :\n {repr(e)}"
+        logger.error(f"Erro de integridade do banco de dados ao atualizar a aplicação: {error_msg}")
+        return {"message": error_msg}, 500
 
     except Exception as e:
         # caso um erro fora do previsto
-        error_msg = f"Não foi possível salvar novo item . Detalhe: {repr(e)}"
+        error_msg = f"Não foi possível salvar novo item.\nDetalhe: {repr(e)}"
         logger.warning(f"Erro ao adicionar aplicação '{db_aplicacao.nome}', {error_msg}")
-        return {"mesage": error_msg}, 400
+        print(f"ERRO: {error_msg}")
+        return {"message": error_msg}, 400
     
 # -------------------------------
 # METODOS REFERENTE A TECNOLOGIAS

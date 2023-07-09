@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List
 from model.aplicacao import Aplicacao
 
@@ -12,7 +12,6 @@ class AplicacaoSchema(BaseModel):
     descricao:  str = "O SAP SuccessFactors é uma solução completa para um RH estratégico e eficaz."
     status:     str = "AA"
 
-
 class AplicacaoViewSchema(BaseModel):
     """ Define como uma aplicação será retornada (aplicacao.py)
     """
@@ -21,6 +20,36 @@ class AplicacaoViewSchema(BaseModel):
     sigla:      str = "SSF"
     descricao:  str = "SAP Success Factor"
     status:     str = "AA"
+
+
+class ListagemAplicacoesSchemaPG(BaseModel):
+    """ Define como uma listagem de aplicações será retornada por página (aplicacao.py)
+    """
+    page:        int = Field(default=1, description="Número da página")
+    per_page:    int = Field(default=4, description="Quantidade de itens por página")
+    total_pages: int = Field(default=1, description="Número total de páginas")
+
+# As funções da classe do schemas não podem conter espaços iniciais (identação)
+# Pois ocorre erro de importação/utilização no app.py
+def apresenta_aplicacoesPG(aplicacoes: List[Aplicacao], page, per_page, totalPages):
+    """ Retorna uma representação da aplicação seguindo o schema definido em
+        AplicaçãoViewSchema.
+    """
+    result = []
+    for aplicacao in aplicacoes:
+        result.append({
+            "id"        : aplicacao.id,
+            "nome"      : aplicacao.nome,
+            "sigla"     : aplicacao.sigla,
+            "descricao" : aplicacao.descricao,
+            "status"    : aplicacao.status
+        })
+        
+    return {"aplicacoes"   : result,
+            "totalPages"   : totalPages,
+            "currentPage"  : page,
+            "itemsPerPage" : per_page}
+
 
 class ListagemAplicacoesSchema(BaseModel):
     """ Define como uma listagem de aplicações será retornada (aplicacao.py)
@@ -79,8 +108,6 @@ class AplicacaoBuscaSchema(BaseModel):
     id:         int = 0
     nome:       str = ""
     sigla:      str = ""
-    descricao:  str = ""
-    status:     str = ""
 
 
 class AplicacaoUpdSchema(BaseModel):

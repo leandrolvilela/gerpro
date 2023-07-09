@@ -3,14 +3,23 @@
   Função para obter a lista existente do servidor via requisição GET
   --------------------------------------------------------------------------------------
 */
-const getList = async () => {
-  let url = 'http://127.0.0.1:5000/aplicacoes';
+const getList = async (page, perPage) => {
+  //let url = 'http://127.0.0.1:5000/aplicacoes?page=${page}';
+  let url = `http://127.0.0.1:5000/aplicacoes?page=${page}&per_page=${perPage}`;
   fetch(url, {
     method: 'get',
   })
     .then((response) => response.json())
     .then((data) => {
-      data.aplicacoes.forEach(item => insertList(item.id, item.nome, item.sigla, item.descricao, item.status))
+      data.aplicacoes.forEach(item => 
+        insertList(item.id, item.nome, item.sigla, item.descricao, item.status));
+      
+        // const totalPages   = data.totalPages;
+        // const itemsPerPage = data.itemsPerPage; //Quantidade de itens por página
+        // const page         = data.currentPage;
+
+        // generatePagination(totalPages, itemsPerPage, page);
+
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -32,6 +41,9 @@ getList()
   --------------------------------------------------------------------------------------
 */
 const postApp = async (nome, sigla, descricao, status) => {
+
+console.log("NOME: ",nome," SIGLA: ",sigla," DESCRICAO: ",descricao)
+
   const formData = new FormData();
   formData.append('nome', nome);
   formData.append('sigla', sigla);
@@ -50,14 +62,32 @@ const postApp = async (nome, sigla, descricao, status) => {
       const sigla     = data.sigla;
       const descricao = data.descricao;
       const status    = data.status;
-      insertList(id, nome, sigla, descricao, status);
-      limparFormulario()
+      const msg       = data.message;
+
+      console.log("ID: ", id, " NOME: ",nome, " SIGLA: ", sigla, " MSG: ",msg)
+
+      if (msg){
+        var titulo_msg = 'Erro ao cadastrar!'
+        // Exibe mensagem de erro
+        exibeMsgErro(titulo_msg, msg)
+      } else {
+        insertList(id, nome, sigla, descricao, status);
+        limparFormulario()
+      }
     })
     .catch((error) => {
-      console.error('Error:', error);
+        console.error('Error:', error);
     });
 }
 
+function exibeMsgErro(titulo_msg, msg){
+  const divMsgErro = document.getElementById('msgErroCadastro');
+  divMsgErro.style.display = 'list-item';
+  const strongElement = document.querySelector('#msgErroCadastro strong');
+  strongElement.innerHTML = titulo_msg;
+  const pElement = document.querySelector('#msgErroCadastro p');
+  pElement.innerHTML = msg;
+}
 
 /*
   --------------------------------------------------------------------------------------
@@ -135,6 +165,45 @@ const insertList = (id, nome, sigla, descricao, status) => {
 
 }
 
+
+const generatePagination = (totalPages, itemsPerPage, currentPage) => {
+  
+  // console.log(itemsPerPage, " - ",currentPage, " Total Pages: ",totalPages)
+
+  const paginationList = document.querySelector('.pagination-list');
+  paginationList.innerHTML = ''; //limpar o conteúdo anterior do elemento antes de adicionar os novos elementos de paginação
+  
+  const pagination = document.createElement('ul');
+  pagination.classList.add('pagination');
+
+  for (let i = 1; i <= totalPages; i++) {
+    const li = document.createElement('li');
+    li.classList.add('page-item');
+
+    const link = document.createElement('a');
+    link.classList.add('page-link');
+    link.href = '#';
+    link.textContent = i;
+
+    if (i === currentPage) {
+      li.classList.add('active');
+    }
+
+    link.addEventListener('click', () => {
+      limpaTabela();
+      getList(i, itemsPerPage);
+    });
+
+    li.appendChild(link);
+    pagination.appendChild(li);
+  }
+
+  paginationList.appendChild(pagination);
+};
+
+
+
+
 // Função para confirmar a exclusão
 const confirmDelete = (id) => {
 
@@ -201,14 +270,30 @@ function editItem(appId, appNome, appSigla, appDescricao, appStatus){
     body: JSON.stringify(data)
   })
     .then((response) => {
-      console.log('Retornou: ', response)
-      limpaTabela()
-      limparFormulario()
-      getList()
-      $('#myModal').modal('hide');
+      if (response.ok){
+
+        limpaTabela()
+        limparFormulario()
+        getList()
+        $('#myModal').modal('hide');
+
+      } else{
+
+        // Requisição com erro, capturar mensagem de erro
+        return response.json().then((data) => {
+          const errorMessage = data.message;
+          // console.error('Erro:', errorMessage);
+          const titulo_msg = 'Erro ao atualizar!'
+
+          // Exibe mensagem de erro
+          exibeMsgErro(titulo_msg, errorMessage)
+
+        });
+
+      }
     })
     .catch((error) => {
-      console.error('Error:', error);
+      console.error('Error:', error.message);
     });
 }
 

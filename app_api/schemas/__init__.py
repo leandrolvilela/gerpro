@@ -4,8 +4,8 @@
 #                             apresenta_produto, apresenta_produtos
 from schemas.aplicacao import AplicacaoSchema, AplicacaoViewSchema, AplicacaoBuscaSchema, \
                               ListagemAplicacoesSchema, AplicacaoDelSchema, AplicacaoUpdSchema, \
-                              AplicacaoDltSchema, \
-                              apresenta_aplicacao, apresenta_aplicacoes
+                              AplicacaoDltSchema, ListagemAplicacoesSchemaPG, \
+                              apresenta_aplicacao, apresenta_aplicacoes, apresenta_aplicacoesPG
 from schemas.tecnologia import TecnologiaSchema, ListagemTecnologiaSchema, TecnologiaViewSchema, \
                                 TecnologiaBuscaSchema, TecnologiaDelSchema, TecnologiaUpdSchema, \
                                 apresenta_tecnologia, apresenta_tecnologias

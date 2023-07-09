@@ -128,6 +128,13 @@
                     <div class="modal-footer">
                         <button class="btn" data-dismiss="modal" aria-hidden="true">Fechar</button>
                         <button class="btn btn-primary" type="submit">Salvar</button>
+                        <!-- <button class="btn btn-primary" onclick="teste()">TESTE</button> -->
+                    </div>
+
+                    <div id="msgErroCadastro" class="alert alert-error" style="display: none;">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>Advertência!</strong> 
+                        <p>Melhor checar você mesmo, você não está parecendo bem</p>
                     </div>
                 
                 </form>
@@ -153,6 +160,10 @@
                     </table>
                 </div>
             </div>
+            <!-- <div class="pagination">
+                <ul class="pagination-list"></ul>
+            </div> -->
+              
 
             <!-- Modal de confirmação de exclusão-->
             <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel"
@@ -184,7 +195,16 @@
             <script src="js/bootstrap.min.js"></script>
 
             <script>
+                function teste(){
+                    event.preventDefault();
 
+                    const divMsgErro = document.getElementById('msgErroCadastro');
+                    //divMsgErro.style.display = 'list-item';
+                    const strongElement = document.querySelector('#msgErroCadastro strong');
+                    strongElement.innerHTML = 'ALTERAÇÃO DA DESCRIÇÃO NA TAG STRONG PELO JAVASCRIPT';
+                    const pElement = document.querySelector('#msgErroCadastro p');
+                    pElement.innerHTML = 'ALTERAÇÃO DA DESCRIÇÃO NA TAG P PELO JAVASCRIPT';
+                }
                 //****************************************************************//
                 //      Função para cadastrar consultar aplicação (filtro)        //
                 //****************************************************************//
@@ -214,6 +234,9 @@
                     var descricao   = document.getElementById('cadAppDescricao').value;
                     var status      = document.getElementById('cadAppStatus').value;
                     
+                    const divMsgErro = document.getElementById('msgErroCadastro');
+                    divMsgErro.style.display = 'none';
+
                     // frmID é de um campo oculto no formulário, se for 0 é para cadastrar uma nova aplicação
                     // caso contrário, o usuário está alterando uma aplicação
                     if (frmId == 0){
