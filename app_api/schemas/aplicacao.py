@@ -7,19 +7,20 @@ class AplicacaoSchema(BaseModel):
     """ Define uma nova aplicação a ser inserida ou atualizada deve ser representada (aplicacao.py)
     """
     id:         int = 0
-    nome:       str = "SAP Success Factor"
-    sigla:      str = "SSF"
-    descricao:  str = "O SAP SuccessFactors é uma solução completa para um RH estratégico e eficaz."
-    status:     str = "AA"
+    nome:       str = Field("SAP Success Factor", description="Nome da Aplicação")
+    sigla:      str = Field("SSF", description="Sigla da aplicação para facilitar a busca")
+    descricao:  str = Field("Solução completa para um RH estratégico e eficaz.", description="Descrição da Aplicação")
+    status:     str = Field("AA", description="Possiveis valores AA-Aguardando Aprovação, A-Ativo, I-Inativo")
 
 class AplicacaoViewSchema(BaseModel):
     """ Define como uma aplicação será retornada (aplicacao.py)
     """
-    id:         int = 1
-    nome:       str = "SAP Success Factor"
-    sigla:      str = "SSF"
-    descricao:  str = "SAP Success Factor"
-    status:     str = "AA"
+    id:         int = 0
+    nome:       str = Field("SAP Success Factor", description="Nome da Aplicação")
+    sigla:      str = Field("SSF", description="Sigla da aplicação para facilitar a busca")
+    descricao:  str = Field("Solução completa para um RH estratégico e eficaz.", description="Descrição da Aplicação")
+    status:     str = Field("AA", description="Possiveis valores AA-Aguardando Aprovação, A-Ativo, I-Inativo")
+
 
 
 class ListagemAplicacoesSchemaPG(BaseModel):
@@ -96,10 +97,11 @@ class AplicacaoViewSchema(BaseModel):
     """ Define como uma aplicação será retornada (aplicacao.py)
     """
     id:         int = 1
-    nome:       str = "SAP Success Factor"
-    sigla:      str = "SSF"
-    descricao:  str = "SAP Success Factor"
-    status:     str = "AA"
+    nome:       str = Field("SAP Success Factor", description="Nome da Aplicação")
+    sigla:      str = Field("SSF", description="Sigla da aplicação para facilitar a busca")
+    descricao:  str = Field("Solução completa para um RH estratégico e eficaz.", description="Descrição da Aplicação")
+    status:     str = Field("AA", description="Possiveis valores AA-Aguardando Aprovação, A-Ativo, I-Inativo")
+
 
 class AplicacaoBuscaSchema(BaseModel):
     """ Define como deve ser a estrutura que representa a busca. Que será

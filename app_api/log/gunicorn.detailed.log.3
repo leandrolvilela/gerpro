@@ -1,37 +1,28 @@
-[2023-07-09 20:47:26,780] ERROR log_exception() L1449 Exception on /aplicacao [GET] - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py L1449
-Traceback (most recent call last):
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 2073, in wsgi_app
-    response = self.full_dispatch_request()
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 1519, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_cors/extension.py", line 165, in wrapped_function
-    return cors_after_request(app.make_response(f(*args, **kwargs)))
-                                                ^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 1517, in full_dispatch_request
-    rv = self.dispatch_request()
-         ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 1503, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_openapi3/scaffold.py", line 109, in wrapper
-    resp = _do_wrapper(
-           ^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask_openapi3/do_wrapper.py", line 135, in _do_wrapper
-    response = func(**request_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py", line 219, in get_aplicacao
-    aplicacao = session.query(Aplicacao).filter(func(Aplicacao.sigla) == aplicacao_sigla.lower()).first()
-                                                ^^^^^^^^^^^^^^^^^^^^^
-  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/sql/functions.py", line 847, in __call__
-    self.__names[-1], packagenames=tuple(self.__names[0:-1]), *c, **o
-    ~~~~~~~~~~~~^^^^
-IndexError: list index out of range
-[2023-07-09 20:47:26,782] INFO _log() L224  127.0.0.1 - - [09/Jul/2023 20:47:26] "[35m[1mGET /aplicacao?sigla=SSF HTTP/1.1[0m" 500 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
-[2023-07-09 20:50:06,940] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
-[2023-07-09 20:50:12,346] INFO _log() L224  127.0.0.1 - - [09/Jul/2023 20:50:12] "GET /aplicacao?sigla=SSF HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
-[2023-07-09 20:50:18,887] INFO _log() L224  127.0.0.1 - - [09/Jul/2023 20:50:18] "GET /aplicacao?sigla=ssf HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
-[2023-07-09 20:50:43,583] WARNING get_aplicacao() L224  Erro ao buscar a aplicação '0', Aplicação não encontrada na base :/ - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py L224 
-[2023-07-09 20:50:43,584] INFO _log() L224  127.0.0.1 - - [09/Jul/2023 20:50:43] "[33mGET /aplicacao?nome=sap%20Success%20Factor123 HTTP/1.1[0m" 404 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
-[2023-07-09 20:51:09,816] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 08:06:05,414] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 08:06:05] "GET /aplicacoes?page=undefined&per_page=undefined HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 08:06:34,777] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 08:06:34] "GET /aplicacoes?page=undefined&per_page=undefined HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 08:06:41,626] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 08:06:41] "OPTIONS /aplicacao?id=18 HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 08:06:41,644] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 08:06:41] "DELETE /aplicacao?id=18 HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 08:06:56,724] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 08:06:56] "OPTIONS /aplicacao HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 08:06:56,742] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 08:06:56] "PUT /aplicacao HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 08:06:56,752] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 08:06:56] "GET /aplicacoes?page=undefined&per_page=undefined HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 08:07:13,218] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 08:07:13] "POST /aplicacao_filtros HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 08:07:19,688] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 08:07:19] "POST /aplicacao_filtros HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 08:07:26,659] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 08:07:26] "POST /aplicacao_filtros HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 08:07:31,264] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 08:07:31] "POST /aplicacao_filtros HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:44:00,610] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:44:00] "GET /aplicacoes?page=undefined&per_page=undefined HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:44:10,821] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:44:10] "OPTIONS /aplicacao HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:44:10,834] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:44:10] "PUT /aplicacao HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:44:10,844] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:44:10] "GET /aplicacoes?page=undefined&per_page=undefined HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:44:26,406] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:44:26] "OPTIONS /aplicacao HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:44:26,418] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:44:26] "PUT /aplicacao HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:44:26,428] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:44:26] "GET /aplicacoes?page=undefined&per_page=undefined HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:44:29,725] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:44:29] "OPTIONS /aplicacao?id=15 HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:44:29,735] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:44:29] "DELETE /aplicacao?id=15 HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:44:49,020] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:44:49] "POST /aplicacao HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:44:56,228] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:44:56] "POST /aplicacao HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:45:01,884] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:45:01] "OPTIONS /aplicacao?id=20 HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:45:01,903] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:45:01] "DELETE /aplicacao?id=20 HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:45:04,757] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:45:04] "OPTIONS /aplicacao?id=21 HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:45:04,775] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:45:04] "DELETE /aplicacao?id=21 HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:45:11,416] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:45:11] "GET /aplicacoes?page=undefined&per_page=undefined HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-10 21:45:17,171] INFO _log() L224  127.0.0.1 - - [10/Jul/2023 21:45:17] "GET /aplicacoes?page=undefined&per_page=undefined HTTP/1.1" 200 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
