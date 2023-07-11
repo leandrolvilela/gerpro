@@ -56,16 +56,20 @@
                 <h2>Tecnologias</h2>
                 <p>Este sistema permite cadastrar e gerenciar as tecnologias utilizadas no parque 
                     tecnológico da empresa.</p>
-                <p><a class="btn" href="#">Entre &raquo;</a></p>
+                <p><a class="btn" onclick="exibirMsg()" href="#">Entre &raquo;</a></p>
             </div>
             <div class="span4">
                 <h2>Obsolescência</h2>
                 <p>Identifica e gerencia ativos obsoletos no parque 
                     tecnológico da empresa, abrangendo aplicações e tecnologias envolvidas.</p>
-                <p><a class="btn" href="#">Entre &raquo;</a></p>
+                <p><a class="btn" onclick="exibirMsg()" href="#">Entre &raquo;</a></p>
             </div>
         </div>
-
+        <div class="alert alert-info" style="display: none;">
+            <!-- <button type="button" class="close" data-dismiss="alert">×</button> -->
+            <h4>Em construção!</h4>
+            Essa funcionalidade ainda se encontra em contrução...
+        </div>
   
 
         <hr>
@@ -78,6 +82,15 @@
 
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script>
+        function exibirMsg(){
+            event.preventDefault();
+            $('.alert').show();
+
+
+            // $(".alert").alert();
+        }
+    </script>
 
 </body>
 

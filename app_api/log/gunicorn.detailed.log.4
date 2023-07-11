@@ -1,4 +1,33 @@
-[2023-07-09 20:43:58,068] ERROR log_exception() L1449 Exception on /aplicacao [GET] - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py L1449
+[2023-07-09 20:44:32,194] INFO _log() L224   * Restarting with stat - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-09 20:44:52,641] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-09 20:44:52,759] INFO _log() L224   * Restarting with stat - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-09 20:44:57,718] ERROR log_exception() L1449 Exception on /aplicacao [GET] - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py L1449
+Traceback (most recent call last):
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 854, in __getattr__
+    return getattr(self.comparator, key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Comparator' object has no attribute 'lower'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/orm/attributes.py", line 327, in __getattr__
+    return getattr(self.comparator, key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 1244, in __getattr__
+    return self._fallback_getattr(key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/orm/properties.py", line 420, in _fallback_getattr
+    return getattr(self.__clause_element__(), key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 856, in __getattr__
+    util.raise_(
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/util/compat.py", line 208, in raise_
+    raise exception
+AttributeError: Neither 'AnnotatedColumn' object nor 'Comparator' object has an attribute 'lower'
+
+The above exception was the direct cause of the following exception:
+
 Traceback (most recent call last):
   File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 2073, in wsgi_app
     response = self.full_dispatch_request()
@@ -22,11 +51,17 @@ Traceback (most recent call last):
     response = func(**request_kwargs)
                ^^^^^^^^^^^^^^^^^^^^^^
   File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py", line 219, in get_aplicacao
-    aplicacao = session.filter(func.lower(Aplicacao.sigla).like(f"%{aplicacao.sigla.lower()}%"))
-                ^^^^^^^^^^^^^^
-AttributeError: 'Session' object has no attribute 'filter'
-[2023-07-09 20:43:58,071] INFO _log() L224  127.0.0.1 - - [09/Jul/2023 20:43:58] "[35m[1mGET /aplicacao?sigla=SS HTTP/1.1[0m" 500 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
-[2023-07-09 20:44:07,674] ERROR log_exception() L1449 Exception on /aplicacao [GET] - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py L1449
+    aplicacao = session.query(Aplicacao).filter(Aplicacao.sigla.lower() == aplicacao_sigla.lower()).first()
+                                                ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/orm/attributes.py", line 329, in __getattr__
+    util.raise_(
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/util/compat.py", line 208, in raise_
+    raise exception
+AttributeError: Neither 'InstrumentedAttribute' object nor 'Comparator' object associated with Aplicacao.sigla has an attribute 'lower'
+[2023-07-09 20:44:57,731] INFO _log() L224  127.0.0.1 - - [09/Jul/2023 20:44:57] "[35m[1mGET /aplicacao?sigla=Ssf HTTP/1.1[0m" 500 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-09 20:47:05,077] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-09 20:47:05,226] INFO _log() L224   * Restarting with stat - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-09 20:47:11,137] ERROR log_exception() L1449 Exception on /aplicacao [GET] - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py L1449
 Traceback (most recent call last):
   File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/flask/app.py", line 2073, in wsgi_app
     response = self.full_dispatch_request()
@@ -50,8 +85,11 @@ Traceback (most recent call last):
     response = func(**request_kwargs)
                ^^^^^^^^^^^^^^^^^^^^^^
   File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py", line 219, in get_aplicacao
-    aplicacao = session.filter(func.lower(Aplicacao.sigla).like(f"%{aplicacao.sigla.lower()}%"))
-                ^^^^^^^^^^^^^^
-AttributeError: 'Session' object has no attribute 'filter'
-[2023-07-09 20:44:07,675] INFO _log() L224  127.0.0.1 - - [09/Jul/2023 20:44:07] "[35m[1mGET /aplicacao?sigla=Ssf HTTP/1.1[0m" 500 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
-[2023-07-09 20:44:32,072] INFO _log() L224   * Detected change in '/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/app.py', reloading - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+    aplicacao = session.query(Aplicacao).filter(func(Aplicacao.sigla) == aplicacao_sigla.lower()).first()
+                                                ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/sqlalchemy/sql/functions.py", line 847, in __call__
+    self.__names[-1], packagenames=tuple(self.__names[0:-1]), *c, **o
+    ~~~~~~~~~~~~^^^^
+IndexError: list index out of range
+[2023-07-09 20:47:11,150] INFO _log() L224  127.0.0.1 - - [09/Jul/2023 20:47:11] "[35m[1mGET /aplicacao?sigla=Ssf HTTP/1.1[0m" 500 - - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
+[2023-07-09 20:50:07,074] INFO _log() L224   * Restarting with stat - call_trace=/home/leandro/Documentos/Treinamentos/Pós Engenharia Software/MVP1/myProjects/app_api/env/lib/python3.11/site-packages/werkzeug/_internal.py L224 
