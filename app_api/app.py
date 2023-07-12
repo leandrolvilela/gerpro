@@ -290,7 +290,7 @@ def before_request():
 def upd_aplicacao(query: AplicacaoUpdSchema):
     """Atualiza uma aplicação a partir do ID da aplicação informado
     
-    Retorna uma mensagem de configuração da remoção
+    Retorna uma mensagem de confirmação da atualização
     """
     query = request.json_data
 
